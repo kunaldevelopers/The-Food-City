@@ -29,8 +29,14 @@ export default function MenuPage() {
   useEffect(() => {
     // Set category from URL parameter
     const categoryParam = searchParams.get("category");
+    const searchParam = searchParams.get("search");
+
     if (categoryParam && CATEGORIES.includes(categoryParam)) {
       setActiveCategory(categoryParam);
+    }
+
+    if (searchParam) {
+      setSearchQuery(searchParam);
     }
   }, [searchParams]);
 

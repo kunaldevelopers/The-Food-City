@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container } from "../../components/shared/Layout.jsx";
 import { mockAPI } from "../../services/mockApi.js";
 import HeroSection from "../../components/customer/HeroSection.jsx";
+import SimpleSearchBox from "../../components/customer/SimpleSearchBox.jsx";
 import SpecialOffersSlider from "../../components/customer/SpecialOffersSlider.jsx";
 import CategorySlider from "../../components/customer/CategorySlider.jsx";
 import { InlineLoader } from "../../components/shared/LoadingSpinner.jsx";
@@ -86,6 +87,9 @@ export default function HomePage() {
     <Container className="py-4 md:py-8">
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Simple Search Box */}
+      <SimpleSearchBox />
 
       {/* Special Offers Slider */}
       <SpecialOffersSlider />
