@@ -1,5 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {
+  FaGift,
+  FaPercentage,
+  FaTruck,
+  FaStar,
+  FaUsers,
+  FaGraduationCap,
+  FaMoon,
+  FaUtensils,
+  FaBirthdayCake,
+} from "react-icons/fa";
 
 export default function SpecialOffersSlider() {
   const scrollRef = useRef(null);
@@ -16,7 +27,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-dark-red to-hover-red",
       textColor: "text-white",
       buttonColor: "bg-white text-dark-red hover:bg-gray-100",
-      icon: "🎉",
+      icon: FaPercentage,
     },
     {
       id: 2,
@@ -26,7 +37,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-success-green to-leafy-green",
       textColor: "text-white",
       buttonColor: "bg-white text-success-green hover:bg-gray-100",
-      icon: "🚚",
+      icon: FaTruck,
     },
     {
       id: 3,
@@ -37,7 +48,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-spicy-orange to-warm-yellow",
       textColor: "text-white",
       buttonColor: "bg-white text-spicy-orange hover:bg-gray-100",
-      icon: "🌟",
+      icon: FaStar,
     },
     {
       id: 4,
@@ -48,7 +59,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-purple-600 to-pink-600",
       textColor: "text-white",
       buttonColor: "bg-white text-purple-600 hover:bg-gray-100",
-      icon: "👨‍👩‍👧‍👦",
+      icon: FaUsers,
     },
     {
       id: 5,
@@ -59,7 +70,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-blue-600 to-indigo-600",
       textColor: "text-white",
       buttonColor: "bg-white text-blue-600 hover:bg-gray-100",
-      icon: "🎓",
+      icon: FaGraduationCap,
     },
     {
       id: 6,
@@ -70,7 +81,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-gray-800 to-gray-900",
       textColor: "text-white",
       buttonColor: "bg-white text-gray-800 hover:bg-gray-100",
-      icon: "🌙",
+      icon: FaMoon,
     },
     {
       id: 7,
@@ -81,7 +92,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-teal-600 to-cyan-600",
       textColor: "text-white",
       buttonColor: "bg-white text-teal-600 hover:bg-gray-100",
-      icon: "🍽️",
+      icon: FaUtensils,
     },
     {
       id: 8,
@@ -91,7 +102,7 @@ export default function SpecialOffersSlider() {
       bgColor: "bg-gradient-to-r from-pink-500 to-rose-500",
       textColor: "text-white",
       buttonColor: "bg-white text-pink-500 hover:bg-gray-100",
-      icon: "🎂",
+      icon: FaBirthdayCake,
     },
   ];
 
@@ -218,7 +229,10 @@ export default function SpecialOffersSlider() {
     <div className="mb-8">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-dark-red">🎁 Special Offers</h2>
+        <h2 className="text-2xl font-bold text-dark-red flex items-center gap-2">
+          <FaGift className="text-dark-red" />
+          Special Offers
+        </h2>
 
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-500">
@@ -299,8 +313,8 @@ export default function SpecialOffersSlider() {
             <div className="absolute inset-0 opacity-10">
               <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full border-2 border-current"></div>
               <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full border-2 border-current"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-8xl opacity-5">
-                {offer.icon}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5">
+                <offer.icon className="text-8xl" />
               </div>
             </div>
 
@@ -313,7 +327,9 @@ export default function SpecialOffersSlider() {
                     {offer.subtitle}
                   </p>
                 </div>
-                <div className="text-3xl">{offer.icon}</div>
+                <div className="text-3xl">
+                  <offer.icon />
+                </div>
               </div>
 
               <p className="text-sm opacity-80 mb-4">{offer.description}</p>

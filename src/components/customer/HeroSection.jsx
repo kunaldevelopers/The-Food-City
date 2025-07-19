@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { FaUtensils, FaHandPaper } from "react-icons/fa";
 
 export default function HeroSection() {
   const { isAuthenticated, user } = useAuth();
@@ -22,12 +23,14 @@ export default function HeroSection() {
           {/* Welcome Message */}
           <div className="mb-6">
             {isAuthenticated ? (
-              <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                Welcome back, {user?.name?.split(" ")[0]}! 👋
+              <h1 className="text-3xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+                Welcome back, {user?.name?.split(" ")[0]}!
+                <FaHandPaper className="text-golden-yellow" />
               </h1>
             ) : (
-              <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                Delicious Food, Delivered Fast! 🍽️
+              <h1 className="text-3xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+                Delicious Food, Delivered Fast!
+                <FaUtensils className="text-golden-yellow" />
               </h1>
             )}
 

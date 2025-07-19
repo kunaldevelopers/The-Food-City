@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Grid, Card } from "../../components/shared/Layout.jsx";
 import { mockAPI } from "../../services/mockApi.js";
 import { InlineLoader } from "../../components/shared/LoadingSpinner.jsx";
+import { FaFire, FaGift, FaPercent } from "react-icons/fa";
 
 export default function DealsPage() {
   const [promoCodes, setPromoCodes] = useState([]);
@@ -87,8 +88,9 @@ export default function DealsPage() {
     <Container className="py-4 md:py-8">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-dark-red mb-4">
-          🎉 Special Deals & Offers
+        <h1 className="text-4xl font-bold text-dark-red mb-4 flex items-center justify-center gap-3">
+          <FaPercent className="text-dark-red" />
+          Special Deals & Offers
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Save big on your favorite meals! Use these exclusive promo codes and
@@ -104,7 +106,10 @@ export default function DealsPage() {
             <div className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full border-4 border-white"></div>
           </div>
           <div className="relative z-10 text-center">
-            <h2 className="text-3xl font-bold mb-4">🔥 Limited Time Offers!</h2>
+            <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
+              <FaFire className="text-golden-yellow" />
+              Limited Time Offers!
+            </h2>
             <p className="text-xl mb-6">
               Get up to 50% OFF on your first order
             </p>
@@ -127,7 +132,7 @@ export default function DealsPage() {
       {promoCodes.length === 0 ? (
         <div className="text-center py-12">
           <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-4xl">🎁</span>
+            <FaGift className="text-4xl text-gray-400" />
           </div>
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
             No active offers right now

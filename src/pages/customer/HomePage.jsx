@@ -5,6 +5,14 @@ import HeroSection from "../../components/customer/HeroSection.jsx";
 import SpecialOffersSlider from "../../components/customer/SpecialOffersSlider.jsx";
 import CategorySlider from "../../components/customer/CategorySlider.jsx";
 import { InlineLoader } from "../../components/shared/LoadingSpinner.jsx";
+import {
+  FaFire,
+  FaBowlFood,
+  FaHotjar,
+  FaDrumstickBite,
+  FaUtensils,
+} from "react-icons/fa6";
+import { FaPepperHot } from "react-icons/fa";
 
 export default function HomePage() {
   const [menuItems, setMenuItems] = useState([]);
@@ -84,23 +92,38 @@ export default function HomePage() {
 
       {/* Trending Items */}
       {trendingItems.length > 0 && (
-        <CategorySlider title="🔥 Trending Now" items={trendingItems} />
+        <CategorySlider
+          title={
+            <span className="flex items-center gap-2">
+              <FaFire className="text-dark-red" />
+              Trending Now
+            </span>
+          }
+          items={trendingItems}
+        />
       )}
 
       {/* Category Sections */}
       {Object.entries(groupedItems).map(([category, items]) => {
-        // Category emojis
-        const categoryEmojis = {
-          Indian: "🍛",
-          Chinese: "🥢",
-          South: "🌶️",
-          Tandoor: "🔥",
+        // Category icons
+        const categoryIcons = {
+          Indian: <FaBowlFood className="text-dark-red" />,
+          Chinese: <FaHotjar className="text-dark-red" />,
+          South: <FaPepperHot className="text-dark-red" />,
+          Tandoor: <FaDrumstickBite className="text-dark-red" />,
         };
 
         return (
           <CategorySlider
             key={category}
-            title={`${categoryEmojis[category] || "🍽️"} ${category} Cuisine`}
+            title={
+              <span className="flex items-center gap-2">
+                {categoryIcons[category] || (
+                  <FaUtensils className="text-dark-red" />
+                )}
+                {category} Cuisine
+              </span>
+            }
             items={items}
           />
         );
