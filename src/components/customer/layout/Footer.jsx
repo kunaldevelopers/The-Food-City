@@ -203,10 +203,18 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 text-sm">
-            © 2024 The Food City. All rights reserved.
+            © 2025 The Food City. All rights reserved.
           </p>
           <p className="text-gray-300 text-sm mt-2 md:mt-0">
-            Made with ❤️ for food lovers
+            Designed and developed by{" "}
+            <a
+              href="https://enegixwebsolutions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-dark-red transition-colors font-medium"
+            >
+              Enegix Web Solutions
+            </a>
           </p>
         </div>
       </div>
