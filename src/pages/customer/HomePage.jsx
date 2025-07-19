@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container } from "../../components/shared/Layout.jsx";
 import { mockAPI } from "../../services/mockApi.js";
 import HeroSection from "../../components/customer/HeroSection.jsx";
-import PromoBanner from "../../components/customer/PromoBanner.jsx";
+import SpecialOffersSlider from "../../components/customer/SpecialOffersSlider.jsx";
 import CategorySlider from "../../components/customer/CategorySlider.jsx";
 import { InlineLoader } from "../../components/shared/LoadingSpinner.jsx";
 
@@ -79,8 +79,8 @@ export default function HomePage() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Promotional Banners */}
-      <PromoBanner />
+      {/* Special Offers Slider */}
+      <SpecialOffersSlider />
 
       {/* Trending Items */}
       {trendingItems.length > 0 && (
