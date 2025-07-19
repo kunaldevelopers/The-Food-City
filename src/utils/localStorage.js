@@ -166,10 +166,10 @@ class LocalStorageManager {
 
   // Initialize with default data
   initializeDefaultData(defaultData) {
-    // Only initialize if data doesn't exist
-    if (!this.getMenuItems().length) {
-      this.setMenuItems(defaultData.menuItems);
-    }
+    // Always update menu items to get latest additions
+    this.setMenuItems(defaultData.menuItems);
+
+    // Only initialize other data if it doesn't exist
     if (!this.getUsers().length) {
       this.setUsers(defaultData.users);
     }
