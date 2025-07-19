@@ -229,133 +229,162 @@ export default function SpecialOffersSlider() {
     <div className="mb-8">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-dark-red flex items-center gap-2">
-          <FaGift className="text-dark-red" />
-          Special Offers
-        </h2>
+        <div className="flex items-center gap-4">
+          <h2 className="text-2xl font-bold text-dark-red flex items-center gap-2">
+            <FaGift className="text-dark-red" />
+            Special Offers
+          </h2>
+        </div>
 
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-500">
+        <div className="flex items-center space-x-3">
+          <span className="text-sm text-gray-500 hidden sm:block">
             {specialOffers.length} offers available
           </span>
 
-          {/* Scroll Buttons - Hidden on mobile */}
-          <div className="hidden md:flex space-x-1">
-            <button
-              onClick={() => scroll("left")}
-              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-              aria-label="Previous offer"
+          {/* View All Offers Button */}
+          <Link
+            to="/deals"
+            className="bg-dark-red hover:bg-hover-red text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+          >
+            View All
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-              aria-label="Next offer"
-            >
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </Link>
         </div>
       </div>
 
-      {/* Offers Container */}
-      <div
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide pb-2"
-        style={{
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          WebkitScrollbar: { display: "none" },
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {specialOffers.map((offer) => (
-          <div
-            key={offer.id}
-            className={`
-              flex-shrink-0 w-80 sm:w-96
+      {/* Offers Container with Navigation Arrows */}
+      <div className="relative">
+        {/* Scroll Buttons - Positioned over the slider */}
+        <button
+          onClick={() => scroll("left")}
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-dark-red hover:bg-hover-red shadow-lg hover:shadow-xl border border-dark-red hover:border-hover-red flex items-center justify-center transition-all duration-200 hover:scale-105"
+          aria-label="Previous offer"
+        >
+          <svg
+            className="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={() => scroll("right")}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-dark-red hover:bg-hover-red shadow-lg hover:shadow-xl border border-dark-red hover:border-hover-red flex items-center justify-center transition-all duration-200 hover:scale-105"
+          aria-label="Next offer"
+        >
+          <svg
+            className="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide pb-2"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitScrollbar: { display: "none" },
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {specialOffers.map((offer) => (
+            <div
+              key={offer.id}
+              className={`
+              flex-shrink-0 w-80 sm:w-88 md:w-80 lg:w-96 h-64
               ${offer.bgColor} ${offer.textColor}
               rounded-lg p-6 relative overflow-hidden
               hover:scale-105 transition-transform duration-300
-              cursor-pointer shadow-lg
+              cursor-pointer shadow-lg flex flex-col
             `}
-          >
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full border-2 border-current"></div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full border-2 border-current"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5">
-                <offer.icon className="text-8xl" />
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-2">
-                <div>
-                  <h3 className="text-2xl font-bold mb-1">{offer.title}</h3>
-                  <p className="text-lg font-medium opacity-90">
-                    {offer.subtitle}
-                  </p>
-                </div>
-                <div className="text-3xl">
-                  <offer.icon />
+            >
+              {/* Background Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full border-2 border-current"></div>
+                <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full border-2 border-current"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-5">
+                  <offer.icon className="text-8xl" />
                 </div>
               </div>
 
-              <p className="text-sm opacity-80 mb-4">{offer.description}</p>
-
-              {offer.code && (
-                <div className="mb-4">
-                  <div className="inline-block bg-black bg-opacity-20 px-3 py-1 rounded-full">
-                    <span className="text-sm font-mono font-bold">
-                      {offer.code}
-                    </span>
+              {/* Content */}
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-1 line-clamp-1">
+                      {offer.title}
+                    </h3>
+                    <p className="text-base font-medium opacity-90 line-clamp-1">
+                      {offer.subtitle}
+                    </p>
+                  </div>
+                  <div className="text-2xl ml-3">
+                    <offer.icon />
                   </div>
                 </div>
-              )}
 
-              <Link
-                to="/deals"
-                className={`
-                  inline-block px-4 py-2 rounded-lg font-medium transition-colors
-                  ${offer.buttonColor}
-                `}
-              >
-                Claim Offer
-              </Link>
+                <p className="text-sm opacity-80 mb-4 flex-1 line-clamp-2">
+                  {offer.description}
+                </p>
+
+                <div className="mt-auto">
+                  {offer.code && (
+                    <div className="mb-3">
+                      <div className="inline-block bg-black bg-opacity-20 px-3 py-1 rounded-full">
+                        <span className="text-sm font-mono font-bold">
+                          {offer.code}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  <Link
+                    to="/deals"
+                    className={`
+                    inline-block px-4 py-2 rounded-lg font-medium transition-colors text-sm
+                    ${offer.buttonColor}
+                  `}
+                  >
+                    Claim Offer
+                  </Link>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Mobile indicators */}

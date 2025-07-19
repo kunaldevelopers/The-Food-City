@@ -93,6 +93,7 @@ export default function HomePage() {
       {/* Trending Items */}
       {trendingItems.length > 0 && (
         <CategorySlider
+          category="trending"
           title={
             <span className="flex items-center gap-2">
               <FaFire className="text-dark-red" />
@@ -116,6 +117,7 @@ export default function HomePage() {
         return (
           <CategorySlider
             key={category}
+            category={category}
             title={
               <span className="flex items-center gap-2">
                 {categoryIcons[category] || (

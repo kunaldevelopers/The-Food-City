@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Container, Grid } from "../../components/shared/Layout.jsx";
 import { mockAPI } from "../../services/mockApi.js";
 import SearchBar from "../../components/customer/SearchBar.jsx";
@@ -7,7 +8,10 @@ import SortOptions from "../../components/customer/SortOptions.jsx";
 import FoodCard from "../../components/customer/FoodCard.jsx";
 import { InlineLoader } from "../../components/shared/LoadingSpinner.jsx";
 
+const CATEGORIES = ["All", "Indian", "Chinese", "South", "Tandoor"];
+
 export default function MenuPage() {
+  const [searchParams] = useSearchParams();
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,11 +22,17 @@ export default function MenuPage() {
   const [sortBy, setSortBy] = useState("relevance");
   const [activeCategory, setActiveCategory] = useState("");
 
-  const categories = ["All", "Indian", "Chinese", "South", "Tandoor"];
-
   useEffect(() => {
     loadMenuItems();
   }, []);
+
+  useEffect(() => {
+    // Set category from URL parameter
+    const categoryParam = searchParams.get("category");
+    if (categoryParam && CATEGORIES.includes(categoryParam)) {
+      setActiveCategory(categoryParam);
+    }
+  }, [searchParams]);
 
   const loadMenuItems = async () => {
     try {
@@ -197,7 +207,7 @@ export default function MenuPage() {
       {/* Category Tabs */}
       <div className="mb-6">
         <div className="flex space-x-2 overflow-x-auto scrollbar-hide pb-2">
-          {categories.map((category) => (
+          {CATEGORIES.map((category) => (
             <button
               key={category}
               onClick={() =>
