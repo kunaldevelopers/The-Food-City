@@ -7,7 +7,7 @@ export default function HeroSection() {
   const { isAuthenticated, user } = useAuth();
 
   return (
-    <div className="relative bg-gradient-to-r from-dark-red to-deep-red text-white rounded-lg overflow-hidden mb-8">
+    <div className="relative bg-gradient-to-r from-red-900 to-red-800 text-white rounded-lg overflow-hidden mb-8">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-full h-full">
@@ -43,14 +43,14 @@ export default function HeroSection() {
           <div className="flex gap-3 justify-center items-center mb-4">
             <Link
               to="/menu"
-              className="bg-white text-dark-red px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-sm"
+              className="bg-white text-red-900 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-sm"
             >
               Browse Menu
             </Link>
 
             <Link
               to="/deals"
-              className="border-2 border-white text-white px-4 py-2 rounded-lg font-semibold hover:bg-white hover:text-dark-red transition-colors text-sm"
+              className="border-2 border-white text-white px-4 py-2 rounded-lg font-semibold hover:bg-white hover:text-red-900 transition-colors text-sm"
             >
               View Offers
             </Link>
@@ -149,7 +149,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               to="/menu"
-              className="bg-white text-dark-red px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center"
+              className="bg-white text-red-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center"
             >
               <span>Browse Menu</span>
               <svg
@@ -169,7 +169,7 @@ export default function HeroSection() {
 
             <Link
               to="/deals"
-              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-dark-red transition-colors inline-flex items-center"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-red-900 transition-colors inline-flex items-center"
             >
               <span>View Offers</span>
               <svg

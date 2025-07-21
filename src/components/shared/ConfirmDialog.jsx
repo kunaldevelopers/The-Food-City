@@ -1,4 +1,5 @@
 import React from "react";
+import { FaTrash, FaExclamationTriangle, FaInfoCircle } from "react-icons/fa";
 
 export default function ConfirmDialog({
   isOpen,
@@ -14,17 +15,17 @@ export default function ConfirmDialog({
 
   const typeStyles = {
     warning: {
-      icon: "⚠️",
+      icon: <FaExclamationTriangle className="text-white" />,
       confirmButton: "bg-warm-yellow hover:bg-yellow-600 text-black",
       iconBg: "bg-warm-yellow",
     },
     danger: {
-      icon: "🗑️",
-      confirmButton: "bg-error-red hover:bg-red-600 text-white",
-      iconBg: "bg-error-red",
+      icon: <FaTrash className="text-white" />,
+      confirmButton: "bg-red-900 hover:bg-red-800 text-white",
+      iconBg: "bg-red-900",
     },
     info: {
-      icon: "ℹ️",
+      icon: <FaInfoCircle className="text-white" />,
       confirmButton: "bg-info-blue hover:bg-blue-600 text-white",
       iconBg: "bg-info-blue",
     },
@@ -46,7 +47,7 @@ export default function ConfirmDialog({
             <div
               className={`w-10 h-10 ${currentStyle.iconBg} rounded-full flex items-center justify-center mr-3`}
             >
-              <span className="text-white text-lg">{currentStyle.icon}</span>
+              {currentStyle.icon}
             </div>
             <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
           </div>

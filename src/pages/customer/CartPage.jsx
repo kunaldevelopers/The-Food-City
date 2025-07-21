@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Container, Card, Button } from "../../components/shared/Layout.jsx";
 import { useCart } from "../../context/CartContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import CartItem from "../../components/customer/CartItem.jsx";
 import CartSummary from "../../components/customer/CartSummary.jsx";
+import ConfirmDialog from "../../components/shared/ConfirmDialog.jsx";
+import { FaShieldAlt, FaClock, FaStar } from "react-icons/fa";
 
 export default function CartPage() {
   const { items, itemCount, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   const handleProceedToCheckout = () => {
     if (!isAuthenticated) {
@@ -21,9 +24,12 @@ export default function CartPage() {
   };
 
   const handleClearCart = () => {
-    if (window.confirm("Are you sure you want to clear your cart?")) {
-      clearCart();
-    }
+    setShowClearConfirm(true);
+  };
+
+  const confirmClearCart = () => {
+    clearCart();
+    setShowClearConfirm(false);
   };
 
   if (itemCount === 0) {
@@ -148,21 +154,9 @@ export default function CartPage() {
 
         {/* Trust Indicators */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="flex items-center space-x-3 p-4 bg-success-green bg-opacity-10 rounded-lg">
-            <div className="w-10 h-10 bg-success-green rounded-full flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+          <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg border border-red-100">
+            <div className="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center">
+              <FaShieldAlt className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="font-medium text-gray-800">Safe & Secure</p>
@@ -170,21 +164,9 @@ export default function CartPage() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 p-4 bg-info-blue bg-opacity-10 rounded-lg">
-            <div className="w-10 h-10 bg-info-blue rounded-full flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+          <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg border border-red-100">
+            <div className="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center">
+              <FaClock className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="font-medium text-gray-800">Fast Delivery</p>
@@ -192,21 +174,9 @@ export default function CartPage() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 p-4 bg-warm-yellow bg-opacity-10 rounded-lg">
-            <div className="w-10 h-10 bg-warm-yellow rounded-full flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.915a1 1 0 00.95-.69l1.519-4.674z"
-                />
-              </svg>
+          <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg border border-red-100">
+            <div className="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center">
+              <FaStar className="w-5 h-5 text-white" />
             </div>
             <div>
               <p className="font-medium text-gray-800">Quality Food</p>
@@ -215,6 +185,18 @@ export default function CartPage() {
           </div>
         </div>
       </div>
+
+      {/* Clear Cart Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={showClearConfirm}
+        onClose={() => setShowClearConfirm(false)}
+        onConfirm={confirmClearCart}
+        title="Clear Cart"
+        message="Are you sure you want to remove all items from your cart? This action cannot be undone."
+        confirmText="Clear Cart"
+        cancelText="Keep Items"
+        type="danger"
+      />
     </Container>
   );
 }
