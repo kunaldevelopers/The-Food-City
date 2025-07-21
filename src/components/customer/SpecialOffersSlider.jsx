@@ -341,7 +341,7 @@ export default function SpecialOffersSlider() {
               flex-shrink-0 w-80 sm:w-88 md:w-80 lg:w-96 h-64
               ${offer.bgColor} ${offer.textColor}
               rounded-lg p-6 relative overflow-hidden
-              hover:scale-105 transition-transform duration-300
+              transition-transform duration-300
               cursor-pointer shadow-lg flex flex-col
             `}
             >
