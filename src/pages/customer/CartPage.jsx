@@ -78,47 +78,49 @@ export default function CartPage() {
 
   return (
     <Container className="py-4 md:py-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-2 md:px-4">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-3">
           <div>
-            <h1 className="text-3xl font-bold text-dark-red mb-2">Your Cart</h1>
-            <p className="text-gray-600">
+            <h1 className="text-2xl md:text-3xl font-bold text-dark-red mb-1 md:mb-2">
+              Your Cart
+            </h1>
+            <p className="text-gray-600 text-sm md:text-base">
               {itemCount} item{itemCount !== 1 ? "s" : ""} in your cart
             </p>
           </div>
           <Button
             variant="outline"
             onClick={handleClearCart}
-            className="text-error-red border-error-red hover:bg-red-50"
+            className="text-error-red border-error-red hover:bg-red-50 text-sm md:text-base px-3 md:px-4 py-2 self-start sm:self-auto"
           >
             Clear Cart
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2">
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               {items.map((item) => (
                 <CartItem key={item.id} item={item} />
               ))}
             </div>
 
             {/* Continue Shopping */}
-            <div className="mt-8 p-4 bg-light-gray rounded-lg">
-              <div className="flex items-center justify-between">
+            <div className="mt-6 md:mt-8 p-3 md:p-4 bg-light-gray rounded-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">
+                  <h3 className="font-semibold text-gray-800 mb-1 text-sm md:text-base">
                     Want to add more items?
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-xs md:text-sm">
                     Continue browsing our menu for more delicious options
                   </p>
                 </div>
                 <Link
                   to="/menu"
-                  className="bg-dark-red text-white px-6 py-2 rounded-lg hover:bg-hover-red transition-colors font-medium whitespace-nowrap ml-4"
+                  className="bg-dark-red text-white px-4 md:px-6 py-2 rounded-lg hover:bg-hover-red transition-colors font-medium text-sm md:text-base text-center sm:whitespace-nowrap"
                 >
                   Add More Items
                 </Link>
@@ -127,24 +129,24 @@ export default function CartPage() {
           </div>
 
           {/* Cart Summary */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4">
+          <div className="lg:col-span-1 order-first lg:order-last">
+            <div className="lg:sticky lg:top-4">
               <CartSummary onCheckout={handleProceedToCheckout} />
             </div>
           </div>
         </div>
 
         {/* Recommended Items */}
-        <div className="mt-12">
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="mt-8 md:mt-12">
+          <Card className="p-4 md:p-6">
+            <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-3 md:mb-4">
               You might also like
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {/* This could be populated with recommended items */}
-              <div className="bg-light-gray p-4 rounded-lg text-center">
-                <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-3"></div>
-                <p className="text-gray-600 text-sm">
+              <div className="bg-light-gray p-3 md:p-4 rounded-lg text-center">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-gray-200 rounded-full mx-auto mb-2 md:mb-3"></div>
+                <p className="text-gray-600 text-xs md:text-sm">
                   Recommended items will appear here
                 </p>
               </div>
@@ -153,34 +155,44 @@ export default function CartPage() {
         </div>
 
         {/* Trust Indicators */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg border border-red-100">
-            <div className="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center">
-              <FaShieldAlt className="w-5 h-5 text-white" />
+        <div className="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+          <div className="flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
+              <FaShieldAlt className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-800">Safe & Secure</p>
-              <p className="text-sm text-gray-600">100% secure payment</p>
+              <p className="font-medium text-gray-800 text-sm md:text-base">
+                Safe & Secure
+              </p>
+              <p className="text-xs md:text-sm text-gray-600">
+                100% secure payment
+              </p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg border border-red-100">
-            <div className="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center">
-              <FaClock className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
+              <FaClock className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-800">Fast Delivery</p>
-              <p className="text-sm text-gray-600">30-45 minutes</p>
+              <p className="font-medium text-gray-800 text-sm md:text-base">
+                Fast Delivery
+              </p>
+              <p className="text-xs md:text-sm text-gray-600">30-45 minutes</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3 p-4 bg-red-50 rounded-lg border border-red-100">
-            <div className="w-10 h-10 bg-red-900 rounded-full flex items-center justify-center">
-              <FaStar className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100">
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
+              <FaStar className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-800">Quality Food</p>
-              <p className="text-sm text-gray-600">Fresh ingredients</p>
+              <p className="font-medium text-gray-800 text-sm md:text-base">
+                Quality Food
+              </p>
+              <p className="text-xs md:text-sm text-gray-600">
+                Fresh ingredients
+              </p>
             </div>
           </div>
         </div>

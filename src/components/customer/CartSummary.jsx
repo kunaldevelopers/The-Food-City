@@ -55,22 +55,22 @@ export default function CartSummary({ onCheckout }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 md:p-6">
+      <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4">
         Order Summary
       </h3>
 
       {/* Promo Code Section */}
-      <div className="mb-6">
+      <div className="mb-4 md:mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Promo Code
         </label>
 
         {promoCode ? (
-          <div className="flex items-center justify-between p-3 bg-success-green bg-opacity-10 border border-success-green rounded-lg">
+          <div className="flex items-center justify-between p-2 md:p-3 bg-success-green bg-opacity-10 border border-success-green rounded-lg">
             <div className="flex items-center">
               <svg
-                className="w-5 h-5 text-success-green mr-2"
+                className="w-4 h-4 md:w-5 md:h-5 text-success-green mr-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -82,7 +82,7 @@ export default function CartSummary({ onCheckout }) {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span className="text-success-green font-medium">
+              <span className="text-success-green font-medium text-sm md:text-base">
                 {promoCode.code} applied
               </span>
             </div>
@@ -107,14 +107,14 @@ export default function CartSummary({ onCheckout }) {
           </div>
         ) : (
           <div className="space-y-2">
-            <div className="flex space-x-2">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
               <input
                 type="text"
                 value={promoInput}
                 onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter promo code"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-red focus:border-transparent"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark-red focus:border-transparent text-sm"
               />
               <Button
                 onClick={handleApplyPromo}
@@ -122,6 +122,7 @@ export default function CartSummary({ onCheckout }) {
                 loading={promoLoading}
                 variant="outline"
                 size="md"
+                className="w-full sm:w-auto"
               >
                 Apply
               </Button>
@@ -151,26 +152,26 @@ export default function CartSummary({ onCheckout }) {
       </div>
 
       {/* Order Breakdown */}
-      <div className="space-y-3 mb-6">
-        <div className="flex justify-between text-gray-600">
+      <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
+        <div className="flex justify-between text-gray-600 text-sm md:text-base">
           <span>Subtotal</span>
           <span>₹{subtotal.toFixed(2)}</span>
         </div>
 
         {discount > 0 && (
-          <div className="flex justify-between text-success-green">
+          <div className="flex justify-between text-success-green text-sm md:text-base">
             <span>Discount</span>
             <span>-₹{discount.toFixed(2)}</span>
           </div>
         )}
 
-        <div className="flex justify-between text-gray-600">
+        <div className="flex justify-between text-gray-600 text-sm md:text-base">
           <span>Delivery Fee</span>
           <span>₹{deliveryFee.toFixed(2)}</span>
         </div>
 
-        <div className="border-t border-gray-200 pt-3">
-          <div className="flex justify-between text-lg font-semibold text-gray-800">
+        <div className="border-t border-gray-200 pt-2 md:pt-3">
+          <div className="flex justify-between text-base md:text-lg font-semibold text-gray-800">
             <span>Total</span>
             <span>₹{total.toFixed(2)}</span>
           </div>
@@ -178,10 +179,10 @@ export default function CartSummary({ onCheckout }) {
       </div>
 
       {/* Delivery Info */}
-      <div className="mb-6 p-3 bg-info-blue bg-opacity-10 border border-info-blue rounded-lg">
+      <div className="mb-4 md:mb-6 p-2 md:p-3 bg-info-blue bg-opacity-10 border border-info-blue rounded-lg">
         <div className="flex items-center text-info-blue">
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-4 h-4 md:w-5 md:h-5 mr-2 flex-shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -193,14 +194,14 @@ export default function CartSummary({ onCheckout }) {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span className="text-sm font-medium">
+          <span className="text-xs md:text-sm font-medium">
             Estimated delivery: 30-45 minutes
           </span>
         </div>
       </div>
 
       {/* Checkout Button */}
-      <Button onClick={onCheckout} fullWidth size="lg" className="mb-4">
+      <Button onClick={onCheckout} fullWidth size="lg" className="mb-3 md:mb-4">
         Proceed to Checkout
       </Button>
 
