@@ -109,14 +109,14 @@ export default function SpecialOffersSlider() {
   const scroll = (direction) => {
     const container = scrollRef.current;
     if (container) {
-      const cardWidth = container.children[0]?.offsetWidth || 300;
+      const cardWidth = container.children[0]?.offsetWidth || 320;
       const gap = 16; // 1rem gap
       const scrollAmount = cardWidth + gap;
-      const maxScroll = container.scrollWidth - container.clientWidth;
 
       if (direction === "right") {
-        // Check if we're at or near the end
-        if (container.scrollLeft >= maxScroll - 10) {
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+        if (container.scrollLeft >= maxScrollLeft - 50) {
           // Reset to beginning
           container.scrollTo({
             left: 0,
@@ -129,14 +129,17 @@ export default function SpecialOffersSlider() {
             left: scrollAmount,
             behavior: "smooth",
           });
-          setCurrentIndex((prev) => (prev + 1) % specialOffers.length);
+          setCurrentIndex((prev) =>
+            Math.min(prev + 1, specialOffers.length - 1)
+          );
         }
       } else {
         // Left scroll
-        if (container.scrollLeft <= 10) {
+        if (container.scrollLeft <= 50) {
           // Go to end
+          const maxScrollLeft = container.scrollWidth - container.clientWidth;
           container.scrollTo({
-            left: maxScroll,
+            left: maxScrollLeft,
             behavior: "smooth",
           });
           setCurrentIndex(specialOffers.length - 1);
@@ -146,9 +149,7 @@ export default function SpecialOffersSlider() {
             left: -scrollAmount,
             behavior: "smooth",
           });
-          setCurrentIndex(
-            (prev) => (prev - 1 + specialOffers.length) % specialOffers.length
-          );
+          setCurrentIndex((prev) => Math.max(prev - 1, 0));
         }
       }
     }
@@ -161,13 +162,13 @@ export default function SpecialOffersSlider() {
     const interval = setInterval(() => {
       const container = scrollRef.current;
       if (container) {
-        const cardWidth = container.children[0]?.offsetWidth || 300;
+        const cardWidth = container.children[0]?.offsetWidth || 320;
         const gap = 16; // 1rem gap
         const scrollAmount = cardWidth + gap;
-        const maxScroll = container.scrollWidth - container.clientWidth;
+        const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
         // Check if we're at or near the end
-        if (container.scrollLeft >= maxScroll - 10) {
+        if (container.scrollLeft >= maxScrollLeft - 50) {
           // Reset to beginning smoothly
           container.scrollTo({
             left: 0,
@@ -180,13 +181,15 @@ export default function SpecialOffersSlider() {
             left: scrollAmount,
             behavior: "smooth",
           });
-          setCurrentIndex((prev) => (prev + 1) % specialOffers.length);
+          setCurrentIndex((prev) =>
+            Math.min(prev + 1, specialOffers.length - 1)
+          );
         }
       }
-    }, 3500); // 3.5 seconds
+    }, 4000); // 4 seconds
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, currentIndex, specialOffers.length]);
+  }, [isAutoPlaying, specialOffers.length]);
 
   // Pause auto-slide on hover
   const handleMouseEnter = () => setIsAutoPlaying(false);
@@ -265,15 +268,20 @@ export default function SpecialOffersSlider() {
       </div>
 
       {/* Offers Container with Navigation Arrows */}
-      <div className="relative">
-        {/* Scroll Buttons - Positioned over the slider */}
+      <div className="relative group">
+        {/* Scroll Buttons - Better positioning and z-index */}
         <button
-          onClick={() => scroll("left")}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-dark-red hover:bg-hover-red shadow-lg hover:shadow-xl border border-dark-red hover:border-hover-red flex items-center justify-center transition-all duration-200 hover:scale-105"
+          onClick={() => {
+            setIsAutoPlaying(false);
+            scroll("left");
+            setTimeout(() => setIsAutoPlaying(true), 2000);
+          }}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-lg hover:shadow-xl border-2 border-dark-red hover:bg-dark-red hover:text-white flex items-center justify-center transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 -translate-x-1 md:-translate-x-2 hover:translate-x-0"
+          style={{ marginLeft: "-1rem" }}
           aria-label="Previous offer"
         >
           <svg
-            className="w-5 h-5 text-white"
+            className="w-4 h-4 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -286,13 +294,19 @@ export default function SpecialOffersSlider() {
             />
           </svg>
         </button>
+
         <button
-          onClick={() => scroll("right")}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-dark-red hover:bg-hover-red shadow-lg hover:shadow-xl border border-dark-red hover:border-hover-red flex items-center justify-center transition-all duration-200 hover:scale-105"
+          onClick={() => {
+            setIsAutoPlaying(false);
+            scroll("right");
+            setTimeout(() => setIsAutoPlaying(true), 2000);
+          }}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-lg hover:shadow-xl border-2 border-dark-red hover:bg-dark-red hover:text-white flex items-center justify-center transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 translate-x-1 md:translate-x-2 hover:translate-x-0"
+          style={{ marginRight: "-1rem" }}
           aria-label="Next offer"
         >
           <svg
-            className="w-5 h-5 text-white"
+            className="w-4 h-4 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
