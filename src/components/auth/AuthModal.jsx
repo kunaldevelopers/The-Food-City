@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function AuthModal({ isOpen, onClose, initialMode = "login" }) {
@@ -10,8 +10,30 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }) {
     phone: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const clearErrorRef = useRef();
 
   const { login, register, isLoading, error, clearError } = useAuth();
+
+  // Store clearError in ref to avoid dependency issues
+  clearErrorRef.current = clearError;
+
+  // Sync mode with initialMode prop when it changes
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
+
+  // Clear form data and errors when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+      });
+      clearErrorRef.current();
+    }
+  }, [isOpen]); // Removed clearError from dependencies
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +44,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }) {
 
     // Clear error when user starts typing
     if (error) {
-      clearError();
+      clearErrorRef.current();
     }
   };
 
@@ -58,7 +80,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }) {
 
   const switchMode = () => {
     setMode(mode === "login" ? "register" : "login");
-    clearError();
+    clearErrorRef.current();
     setFormData({
       name: "",
       email: "",
