@@ -63,7 +63,7 @@ export default function BottomNavigation() {
           />
         </svg>
       ),
-      badge: itemCount,
+      badge: itemCount > 0 ? itemCount : null,
     },
     {
       path: "/orders",
