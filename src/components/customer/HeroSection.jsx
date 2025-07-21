@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { FaUtensils, FaHandPaper } from "react-icons/fa";
+import { FaUtensils } from "react-icons/fa";
 
 export default function HeroSection() {
   const { isAuthenticated, user } = useAuth();
@@ -18,14 +18,90 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="relative z-10 px-6 py-12 md:px-12 md:py-16">
+      {/* Mobile Version - Compact */}
+      <div className="relative z-10 px-4 py-6 md:hidden">
+        <div className="max-w-sm mx-auto text-center">
+          {/* Welcome Message - Mobile */}
+          <div className="mb-4">
+            {isAuthenticated ? (
+              <h1 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
+                Welcome, {user?.name?.split(" ")[0]}! 😊
+              </h1>
+            ) : (
+              <h1 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
+                Delicious Food, Fast!
+                <FaUtensils className="text-golden-yellow text-lg" />
+              </h1>
+            )}
+
+            <p className="text-sm opacity-90">
+              Fresh cuisines delivered to your doorstep.
+            </p>
+          </div>
+
+          {/* CTA Buttons - Mobile */}
+          <div className="flex gap-3 justify-center items-center mb-4">
+            <Link
+              to="/menu"
+              className="bg-white text-dark-red px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-sm"
+            >
+              Browse Menu
+            </Link>
+
+            <Link
+              to="/deals"
+              className="border-2 border-white text-white px-4 py-2 rounded-lg font-semibold hover:bg-white hover:text-dark-red transition-colors text-sm"
+            >
+              View Offers
+            </Link>
+          </div>
+
+          {/* Quick Info - Mobile */}
+          <div className="flex justify-center gap-4 text-xs opacity-80">
+            <div className="flex items-center">
+              <svg
+                className="w-3 h-3 mr-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              11 AM - 11 PM
+            </div>
+            <div className="flex items-center">
+              <svg
+                className="w-3 h-3 mr-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                />
+              </svg>
+              +91 98765 43210
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Version - Full Featured */}
+      <div className="relative z-10 px-6 py-12 md:px-12 md:py-16 hidden md:block">
         <div className="max-w-4xl mx-auto text-center">
           {/* Welcome Message */}
           <div className="mb-6">
             {isAuthenticated ? (
               <h1 className="text-3xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
-                Welcome back, {user?.name?.split(" ")[0]}!
-                <FaHandPaper className="text-golden-yellow" />
+                Welcome back, {user?.name?.split(" ")[0]}! 😊
               </h1>
             ) : (
               <h1 className="text-3xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
