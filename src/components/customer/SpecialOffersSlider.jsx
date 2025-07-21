@@ -276,12 +276,12 @@ export default function SpecialOffersSlider() {
             scroll("left");
             setTimeout(() => setIsAutoPlaying(true), 2000);
           }}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-lg hover:shadow-xl border-2 border-dark-red hover:bg-dark-red hover:text-white flex items-center justify-center transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 -translate-x-1 md:-translate-x-2 hover:translate-x-0"
-          style={{ marginLeft: "-1rem" }}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 rounded-full bg-dark-red text-white shadow-lg hover:shadow-xl hover:bg-hover-red flex items-center justify-center transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 translate-x-0 md:-translate-x-2 hover:translate-x-0"
+          style={{ marginLeft: "0.25rem" }}
           aria-label="Previous offer"
         >
           <svg
-            className="w-4 h-4 md:w-5 md:h-5"
+            className="w-3 h-3 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -301,12 +301,12 @@ export default function SpecialOffersSlider() {
             scroll("right");
             setTimeout(() => setIsAutoPlaying(true), 2000);
           }}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-lg hover:shadow-xl border-2 border-dark-red hover:bg-dark-red hover:text-white flex items-center justify-center transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 translate-x-1 md:translate-x-2 hover:translate-x-0"
-          style={{ marginRight: "-1rem" }}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-20 w-8 h-8 md:w-12 md:h-12 rounded-full bg-dark-red text-white shadow-lg hover:shadow-xl hover:bg-hover-red flex items-center justify-center transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 translate-x-0 md:translate-x-2 hover:translate-x-0"
+          style={{ marginRight: "0.25rem" }}
           aria-label="Next offer"
         >
           <svg
-            className="w-4 h-4 md:w-5 md:h-5"
+            className="w-3 h-3 md:w-5 md:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
