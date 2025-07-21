@@ -67,10 +67,10 @@ export default function Header({ onOpenAuth }) {
 
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
-            {/* Cart Icon */}
+            {/* Cart Icon - Hidden on mobile since it's in bottom nav */}
             <Link
               to="/cart"
-              className="relative p-2 text-gray-700 hover:text-dark-red transition-colors"
+              className="relative p-2 text-gray-700 hover:text-dark-red transition-colors hidden md:block"
             >
               <svg
                 className="w-6 h-6"
