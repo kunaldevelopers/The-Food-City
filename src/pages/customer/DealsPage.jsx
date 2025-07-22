@@ -85,42 +85,42 @@ export default function DealsPage() {
   }
 
   return (
-    <Container className="py-4 md:py-8">
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-dark-red mb-4 flex items-center justify-center gap-3">
-          <FaPercent className="text-dark-red" />
-          Special Deals & Offers
+    <Container className="py-3 md:py-8">
+      {/* Header - Mobile Optimized */}
+      <div className="text-center mb-6 md:mb-8 px-2">
+        <h1 className="text-2xl md:text-4xl font-bold text-dark-red mb-3 md:mb-4 flex items-center justify-center gap-2 md:gap-3">
+          <FaPercent className="text-dark-red text-xl md:text-3xl" />
+          <span className="leading-tight">Special Deals & Offers</span>
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
           Save big on your favorite meals! Use these exclusive promo codes and
           enjoy amazing discounts on your orders.
         </p>
       </div>
 
-      {/* Featured Banner */}
-      <div className="mb-8">
-        <div className="bg-gradient-to-r from-dark-red to-deep-red text-white rounded-xl p-8 relative overflow-hidden">
+      {/* Featured Banner - Mobile Enhanced */}
+      <div className="mb-6 md:mb-8">
+        <div className="bg-gradient-to-r from-dark-red to-deep-red text-white rounded-xl p-4 md:p-8 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute -top-4 -right-4 w-32 h-32 rounded-full border-4 border-white"></div>
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full border-4 border-white"></div>
+            <div className="absolute -top-4 -right-4 w-16 md:w-32 h-16 md:h-32 rounded-full border-2 md:border-4 border-white"></div>
+            <div className="absolute -bottom-4 -left-4 w-12 md:w-24 h-12 md:h-24 rounded-full border-2 md:border-4 border-white"></div>
           </div>
           <div className="relative z-10 text-center">
-            <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-3">
-              <FaFire className="text-golden-yellow" />
-              Limited Time Offers!
+            <h2 className="text-xl md:text-3xl font-bold mb-3 md:mb-4 flex items-center justify-center gap-2 md:gap-3">
+              <FaFire className="text-golden-yellow text-lg md:text-2xl" />
+              <span className="leading-tight">Limited Time Offers!</span>
             </h2>
-            <p className="text-xl mb-6">
+            <p className="text-lg md:text-xl mb-4 md:mb-6">
               Get up to 50% OFF on your first order
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <div className="bg-white bg-opacity-20 px-4 py-2 rounded-full">
+            <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+              <div className="bg-white bg-opacity-20 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-sm md:text-base">
                 <span className="font-semibold">Free Delivery</span>
               </div>
-              <div className="bg-white bg-opacity-20 px-4 py-2 rounded-full">
+              <div className="bg-white bg-opacity-20 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-sm md:text-base">
                 <span className="font-semibold">Quick Service</span>
               </div>
-              <div className="bg-white bg-opacity-20 px-4 py-2 rounded-full">
+              <div className="bg-white bg-opacity-20 px-3 md:px-4 py-1.5 md:py-2 rounded-full text-sm md:text-base">
                 <span className="font-semibold">Fresh Food</span>
               </div>
             </div>
@@ -142,7 +142,11 @@ export default function DealsPage() {
           </p>
         </div>
       ) : (
-        <Grid cols={3} gap={6}>
+        <Grid
+          cols={1}
+          gap={4}
+          className="md:grid-cols-2 lg:grid-cols-3 md:gap-6"
+        >
           {promoCodes.map((promo) => {
             const daysLeft = getDaysUntilExpiry(promo.expiryDate);
             const isExpiringSoon = daysLeft <= 7;
@@ -151,21 +155,21 @@ export default function DealsPage() {
             return (
               <Card
                 key={promo.id}
-                className="relative overflow-hidden hover:shadow-lg transition-shadow"
+                className="relative overflow-hidden hover:shadow-xl transition-all duration-300"
               >
-                {/* Discount Badge */}
-                <div className="absolute top-4 right-4">
-                  <div className="bg-success-green text-white px-3 py-1 rounded-full text-sm font-bold">
+                {/* Mobile-Optimized Badges */}
+                <div className="absolute top-3 right-3 z-20">
+                  <div className="bg-success-green text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold shadow-lg">
                     {promo.discountType === "percentage"
                       ? `${promo.discountValue}% OFF`
                       : `₹${promo.discountValue} OFF`}
                   </div>
                 </div>
 
-                {/* Expiry Warning */}
+                {/* Expiry Warning - Mobile Optimized */}
                 {isExpiringSoon && !isExpired && (
-                  <div className="absolute top-4 left-4">
-                    <div className="bg-warm-yellow text-black px-2 py-1 rounded-full text-xs font-medium">
+                  <div className="absolute top-3 left-3 z-20">
+                    <div className="bg-warm-yellow text-black px-2 py-1 rounded-full text-xs font-medium shadow-lg animate-pulse">
                       {daysLeft === 0
                         ? "Expires Today!"
                         : `${daysLeft} days left`}
@@ -181,7 +185,7 @@ export default function DealsPage() {
                   </div>
                 )}
 
-                <div className="p-6">
+                <div className="p-4 md:p-6">
                   {/* Promo Code */}
                   <div className="mb-4">
                     <div className="flex items-center justify-between mb-2">
@@ -214,23 +218,23 @@ export default function DealsPage() {
                         )}
                       </button>
                     </div>
-                    <div className="bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-3 text-center">
-                      <span className="text-2xl font-bold text-dark-red font-mono">
+                    <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-2.5 md:p-3 text-center hover:border-dark-red transition-colors">
+                      <span className="text-lg md:text-2xl font-bold text-dark-red font-mono select-all">
                         {promo.code}
                       </span>
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  {/* Description - Mobile Optimized */}
+                  <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-3 leading-tight">
                     {promo.description}
                   </h3>
 
-                  {/* Terms */}
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-sm text-gray-600">
+                  {/* Terms - Mobile Compact */}
+                  <div className="space-y-1.5 md:space-y-2 mb-3 md:mb-4">
+                    <div className="flex items-center text-xs md:text-sm text-gray-600">
                       <svg
-                        className="w-4 h-4 mr-2"
+                        className="w-3 h-3 md:w-4 md:h-4 mr-1.5 md:mr-2 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -242,13 +246,13 @@ export default function DealsPage() {
                           d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
                         />
                       </svg>
-                      Min order: ₹{promo.minOrderValue}
+                      <span>Min order: ₹{promo.minOrderValue}</span>
                     </div>
 
                     {promo.maxDiscount && (
-                      <div className="flex items-center text-sm text-gray-600">
+                      <div className="flex items-center text-xs md:text-sm text-gray-600">
                         <svg
-                          className="w-4 h-4 mr-2"
+                          className="w-3 h-3 md:w-4 md:h-4 mr-1.5 md:mr-2 flex-shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -260,13 +264,13 @@ export default function DealsPage() {
                             d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                           />
                         </svg>
-                        Max discount: ₹{promo.maxDiscount}
+                        <span>Max discount: ₹{promo.maxDiscount}</span>
                       </div>
                     )}
 
-                    <div className="flex items-center text-sm text-gray-600">
+                    <div className="flex items-center text-xs md:text-sm text-gray-600">
                       <svg
-                        className="w-4 h-4 mr-2"
+                        className="w-3 h-3 md:w-4 md:h-4 mr-1.5 md:mr-2 flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -278,21 +282,23 @@ export default function DealsPage() {
                           d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10a2 2 0 002 2h4a2 2 0 002-2V11m-6 0h8m-8 0V7a2 2 0 012-2h4a2 2 0 012 2v4"
                         />
                       </svg>
-                      Valid until: {formatExpiryDate(promo.expiryDate)}
+                      <span>
+                        Valid until: {formatExpiryDate(promo.expiryDate)}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Usage Stats */}
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-1">
-                      <span>Used</span>
-                      <span>
+                  {/* Usage Stats - Mobile Enhanced */}
+                  <div className="mb-3 md:mb-4">
+                    <div className="flex justify-between text-xs md:text-sm text-gray-600 mb-1.5">
+                      <span>Usage Progress</span>
+                      <span className="font-medium">
                         {promo.usedCount} / {promo.usageLimit}
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-2">
                       <div
-                        className="bg-dark-red h-2 rounded-full transition-all duration-300"
+                        className="bg-gradient-to-r from-dark-red to-hover-red h-1.5 md:h-2 rounded-full transition-all duration-500"
                         style={{
                           width: `${
                             (promo.usedCount / promo.usageLimit) * 100
@@ -302,20 +308,24 @@ export default function DealsPage() {
                     </div>
                   </div>
 
-                  {/* Action Button */}
+                  {/* Action Button - Mobile Enhanced */}
                   <button
                     onClick={() => copyToClipboard(promo.code)}
                     disabled={isExpired}
                     className={`
-                      w-full py-2 px-4 rounded-lg font-medium transition-colors
+                      w-full py-2.5 md:py-3 px-4 rounded-lg font-semibold transition-all duration-200 text-sm md:text-base
                       ${
                         isExpired
                           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          : "bg-dark-red text-white hover:bg-hover-red"
+                          : "bg-gradient-to-r from-dark-red to-hover-red text-white hover:shadow-lg transform"
                       }
                     `}
                   >
-                    {isExpired ? "Expired" : "Copy Code"}
+                    {isExpired
+                      ? "Expired"
+                      : copiedCode === promo.code
+                      ? "Copied! ✓"
+                      : "Copy Code"}
                   </button>
                 </div>
               </Card>
@@ -324,40 +334,52 @@ export default function DealsPage() {
         </Grid>
       )}
 
-      {/* How to Use Section */}
-      <div className="mt-12">
-        <Card>
-          <h2 className="text-2xl font-bold text-dark-red mb-6 text-center">
+      {/* How to Use Section - Mobile Optimized */}
+      <div className="mt-8 md:mt-12">
+        <Card className="p-4 md:p-6">
+          <h2 className="text-xl md:text-2xl font-bold text-dark-red mb-4 md:mb-6 text-center">
             How to Use Promo Codes
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-dark-red rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white text-2xl">1</span>
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-dark-red to-hover-red rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg">
+                <span className="text-white text-lg md:text-2xl font-bold">
+                  1
+                </span>
               </div>
-              <h3 className="font-semibold text-gray-800 mb-2">Copy Code</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-gray-800 mb-2 text-sm md:text-base">
+                Copy Code
+              </h3>
+              <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
                 Click on any promo code above to copy it to your clipboard
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-dark-red rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white text-2xl">2</span>
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-dark-red to-hover-red rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg">
+                <span className="text-white text-lg md:text-2xl font-bold">
+                  2
+                </span>
               </div>
-              <h3 className="font-semibold text-gray-800 mb-2">Add to Cart</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-gray-800 mb-2 text-sm md:text-base">
+                Add to Cart
+              </h3>
+              <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
                 Add your favorite items to cart and proceed to checkout
               </p>
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-dark-red rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-white text-2xl">3</span>
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-dark-red to-hover-red rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4 shadow-lg">
+                <span className="text-white text-lg md:text-2xl font-bold">
+                  3
+                </span>
               </div>
-              <h3 className="font-semibold text-gray-800 mb-2">Apply & Save</h3>
-              <p className="text-gray-600 text-sm">
+              <h3 className="font-semibold text-gray-800 mb-2 text-sm md:text-base">
+                Apply & Save
+              </h3>
+              <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
                 Paste the code at checkout and enjoy your discount!
               </p>
             </div>
