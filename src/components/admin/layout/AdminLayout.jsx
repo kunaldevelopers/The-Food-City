@@ -11,6 +11,7 @@ import {
   FaChartLine,
   FaUser,
   FaSignOutAlt,
+  FaUserTie,
 } from "react-icons/fa";
 
 export default function AdminLayout() {
@@ -23,6 +24,11 @@ export default function AdminLayout() {
     { path: "/admin/menu", icon: FaUtensils, label: "Menu Management" },
     { path: "/admin/delivery", icon: FaTruck, label: "Delivery" },
     { path: "/admin/customers", icon: FaUsers, label: "Customers" },
+    {
+      path: "/admin/delivery-staffs",
+      icon: FaUserTie,
+      label: "Delivery Staffs",
+    },
     { path: "/admin/reports", icon: FaChartLine, label: "Reports" },
   ];
 

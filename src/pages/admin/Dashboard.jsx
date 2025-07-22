@@ -17,6 +17,7 @@ import {
   FaStar,
   FaTrophy,
   FaEye,
+  FaTruck,
 } from "react-icons/fa";
 
 export default function Dashboard() {
@@ -35,6 +36,7 @@ export default function Dashboard() {
     pendingOrders: 0,
     deliveredOrders: 0,
     averageRating: 0,
+    totalDeliveryStaffs: 0,
   });
   const [recentOrders, setRecentOrders] = useState([]);
   const [topSellingItems, setTopSellingItems] = useState([]);
@@ -62,6 +64,7 @@ export default function Dashboard() {
         pendingOrders: 12,
         deliveredOrders: 2835,
         averageRating: 4.6,
+        totalDeliveryStaffs: 18,
       });
 
       // Mock recent orders
@@ -347,6 +350,13 @@ export default function Dashboard() {
             icon={FaUsers}
             color="bg-blue-600"
             subtext="Registered customers"
+          />
+          <StatCard
+            title="Total Delivery Staffs"
+            value={loading ? "..." : stats.totalDeliveryStaffs}
+            icon={FaTruck}
+            color="bg-indigo-600"
+            subtext="Active delivery personnel"
           />
           <StatCard
             title="Menu Items"
