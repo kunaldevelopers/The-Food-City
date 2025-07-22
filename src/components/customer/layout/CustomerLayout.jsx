@@ -33,7 +33,7 @@ export default function CustomerLayout() {
 
         {/* Bottom Navigation - Mobile only */}
         <div className="md:hidden">
-          <BottomNavigation />
+          <BottomNavigation onOpenAuth={openAuthModal} />
         </div>
 
         {/* Auth Modal */}

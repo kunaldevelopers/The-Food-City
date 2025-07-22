@@ -1,10 +1,24 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/CartContext.jsx";
+import { useAuth } from "../../../context/AuthContext.jsx";
+import { vibrationUtils } from "../../../utils/vibration.js";
 
-export default function BottomNavigation() {
+export default function BottomNavigation({ onOpenAuth }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { itemCount } = useCart();
+  const { isAuthenticated } = useAuth();
+
+  const handleProfileClick = (e) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      vibrationUtils.light(); // Light vibration for button press
+      onOpenAuth("login");
+    } else {
+      navigate("/profile");
+    }
+  };
 
   const navItems = [
     {
@@ -102,6 +116,7 @@ export default function BottomNavigation() {
           />
         </svg>
       ),
+      requiresAuth: true,
     },
   ];
 
@@ -110,6 +125,40 @@ export default function BottomNavigation() {
       <div className="flex items-center justify-around py-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
+
+          // Handle profile item differently based on authentication
+          if (item.requiresAuth && !isAuthenticated) {
+            return (
+              <button
+                key={item.path}
+                onClick={handleProfileClick}
+                className={`
+                  flex flex-col items-center justify-center py-2 px-3 min-w-0 flex-1 relative
+                  transition-colors duration-200
+                  ${
+                    isActive
+                      ? "text-dark-red"
+                      : "text-gray-500 hover:text-gray-700"
+                  }
+                `}
+              >
+                <div className="relative">
+                  {item.icon}
+                  {item.badge && item.badge > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-error-red text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {item.badge > 99 ? "99+" : item.badge}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs mt-1 truncate">{item.label}</span>
+
+                {/* Active indicator */}
+                {isActive && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-dark-red rounded-full"></div>
+                )}
+              </button>
+            );
+          }
 
           return (
             <Link
