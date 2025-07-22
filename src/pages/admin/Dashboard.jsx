@@ -1,49 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "../../components/shared/Layout.jsx";
 import { Link } from "react-router-dom";
+import { Card } from "../../components/shared/Layout.jsx";
 import {
   FaShoppingBag,
-  FaUtensils,
-  FaUsers,
   FaRupeeSign,
-  FaClock,
-  FaTruck,
-  FaStar,
-  FaArrowUp,
+  FaCalendarAlt,
   FaChartLine,
+  FaArrowUp,
+  FaArrowDown,
+  FaHistory,
+  FaClock,
+  FaUsers,
+  FaUtensils,
+  FaHourglassHalf,
+  FaCheckCircle,
+  FaStar,
+  FaTrophy,
   FaEye,
 } from "react-icons/fa";
 
 export default function Dashboard() {
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [stats, setStats] = useState({
-    totalOrders: 0,
-    totalRevenue: 0,
+    todayOrders: 0,
+    todayRevenue: 0,
+    allTimeOrders: 0,
+    allTimeRevenue: 0,
+    selectedDayOrders: 0,
+    selectedDayRevenue: 0,
     totalCustomers: 0,
-    totalMenuItems: 0,
+    menuItems: 0,
     pendingOrders: 0,
-    deliveryInProgress: 0,
-    avgRating: 0,
-    todaysOrders: 0,
+    deliveredOrders: 0,
+    averageRating: 0,
   });
-
   const [recentOrders, setRecentOrders] = useState([]);
-  const [topItems, setTopItems] = useState([]);
+  const [topSellingItems, setTopSellingItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate loading dashboard data
-    const loadDashboardData = () => {
-      // Mock data - replace with actual API calls
+  const loadDashboardData = React.useCallback(() => {
+    setLoading(true);
+
+    // Mock data - replace with actual API calls
+    setTimeout(() => {
+      const today = new Date().toISOString().split("T")[0];
+      const isToday = selectedDate === today;
+
       setStats({
-        totalOrders: 1247,
-        totalRevenue: 248500,
+        todayOrders: 43,
+        todayRevenue: 12850,
+        allTimeOrders: 2847,
+        allTimeRevenue: 485600,
+        selectedDayOrders: isToday ? 43 : Math.floor(Math.random() * 60) + 10,
+        selectedDayRevenue: isToday
+          ? 12850
+          : Math.floor(Math.random() * 20000) + 5000,
         totalCustomers: 856,
-        totalMenuItems: 89,
+        menuItems: 124,
         pendingOrders: 12,
-        deliveryInProgress: 8,
-        avgRating: 4.6,
-        todaysOrders: 43,
+        deliveredOrders: 2835,
+        averageRating: 4.6,
       });
 
+      // Mock recent orders
       setRecentOrders([
         {
           id: "ORD001",
@@ -69,21 +90,73 @@ export default function Dashboard() {
           status: "delivery",
           time: "32 mins ago",
         },
+        {
+          id: "ORD004",
+          customerName: "Sarah Wilson",
+          items: 1,
+          total: 320,
+          status: "pending",
+          time: "45 mins ago",
+        },
+        {
+          id: "ORD005",
+          customerName: "David Brown",
+          items: 4,
+          total: 980,
+          status: "delivered",
+          time: "1 hour ago",
+        },
       ]);
 
-      setTopItems([
-        { name: "Butter Chicken", orders: 45, revenue: 11250 },
-        { name: "Pizza Margherita", orders: 38, revenue: 9500 },
-        { name: "Biryani", orders: 32, revenue: 8000 },
-        { name: "Paneer Tikka", orders: 28, revenue: 5600 },
+      // Mock top selling items
+      setTopSellingItems([
+        { name: "Butter Chicken", orders: 45, revenue: 11250, image: "🍛" },
+        { name: "Pizza Margherita", orders: 38, revenue: 9500, image: "🍕" },
+        { name: "Chicken Biryani", orders: 32, revenue: 8000, image: "🍚" },
+        { name: "Paneer Tikka", orders: 28, revenue: 5600, image: "🧀" },
+        { name: "Masala Dosa", orders: 25, revenue: 3750, image: "🥞" },
       ]);
-    };
 
+      setLoading(false);
+    }, 500);
+  }, [selectedDate]);
+
+  useEffect(() => {
     loadDashboardData();
-  }, []);
+  }, [loadDashboardData]);
 
-  const getStatusColor = (status) => {
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (dateString === today.toISOString().split("T")[0]) {
+      return "Today";
+    } else if (dateString === yesterday.toISOString().split("T")[0]) {
+      return "Yesterday";
+    } else {
+      return date.toLocaleDateString("en-IN", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      });
+    }
+  };
+
+  const getOrderStatusColor = (status) => {
     switch (status) {
+      case "pending":
+        return "bg-gray-100 text-gray-800";
       case "preparing":
         return "bg-yellow-100 text-yellow-800";
       case "delivery":
@@ -95,176 +168,260 @@ export default function Dashboard() {
     }
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
+  const StatCard = ({
+    title,
+    value,
+    icon: IconComponent,
+    color,
+    subtext,
+    trend,
+  }) => (
+    <Card className="p-6 hover:shadow-lg transition-shadow">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
+          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          {subtext && <p className="text-sm text-gray-500 mt-1">{subtext}</p>}
+          {trend && (
+            <div
+              className={`flex items-center mt-2 text-sm ${
+                trend > 0 ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {trend > 0 ? (
+                <FaArrowUp className="mr-1" />
+              ) : (
+                <FaArrowDown className="mr-1" />
+              )}
+              {Math.abs(trend)}% from last period
+            </div>
+          )}
+        </div>
+        <div className={`p-3 rounded-full ${color}`}>
+          {IconComponent && <IconComponent className="text-xl text-white" />}
+        </div>
+      </div>
+    </Card>
+  );
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-          Dashboard
-        </h1>
-        <p className="text-gray-600">
-          Welcome back! Here's what's happening with your restaurant.
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-gray-600 mt-1">
+          Monitor your restaurant's orders and revenue
         </p>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
+      {/* Date Selector */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-3">
+            <FaCalendarAlt className="text-red-600 text-xl" />
             <div>
-              <p className="text-sm text-gray-600">Total Orders</p>
-              <p className="text-2xl font-bold text-gray-800">
-                {stats.totalOrders}
+              <h3 className="text-lg font-semibold text-gray-900">
+                Select Date
+              </h3>
+              <p className="text-sm text-gray-600">
+                View orders and revenue for any specific day
               </p>
-              <p className="text-xs text-green-600 flex items-center gap-1">
-                <FaArrowUp />
-                +12% from last month
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <FaShoppingBag className="text-blue-600 text-xl" />
             </div>
           </div>
-        </Card>
+          <div className="flex items-center gap-3">
+            <label
+              htmlFor="date-picker"
+              className="text-sm font-medium text-gray-700"
+            >
+              Choose Date:
+            </label>
+            <input
+              id="date-picker"
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              max={new Date().toISOString().split("T")[0]}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+            />
+            <span className="text-sm font-medium text-red-600">
+              {formatDate(selectedDate)}
+            </span>
+          </div>
+        </div>
+      </Card>
 
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Revenue</p>
-              <p className="text-2xl font-bold text-gray-800">
-                {formatCurrency(stats.totalRevenue)}
-              </p>
-              <p className="text-xs text-green-600 flex items-center gap-1">
-                <FaArrowUp />
-                +18% from last month
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <FaRupeeSign className="text-green-600 text-xl" />
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Customers</p>
-              <p className="text-2xl font-bold text-gray-800">
-                {stats.totalCustomers}
-              </p>
-              <p className="text-xs text-green-600 flex items-center gap-1">
-                <FaArrowUp />
-                +8% from last month
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <FaUsers className="text-purple-600 text-xl" />
-            </div>
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Menu Items</p>
-              <p className="text-2xl font-bold text-gray-800">
-                {stats.totalMenuItems}
-              </p>
-              <p className="text-xs text-gray-500">Active items</p>
-            </div>
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <FaUtensils className="text-orange-600 text-xl" />
-            </div>
-          </div>
-        </Card>
+      {/* Today's Stats */}
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <FaClock className="text-red-600" />
+          Today's Performance
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <StatCard
+            title="Today's Orders"
+            value={loading ? "..." : stats.todayOrders}
+            icon={FaShoppingBag}
+            color="bg-blue-500"
+            subtext={`Orders received today (${new Date().toLocaleDateString(
+              "en-IN"
+            )})`}
+            trend={12}
+          />
+          <StatCard
+            title="Today's Revenue"
+            value={loading ? "..." : formatCurrency(stats.todayRevenue)}
+            icon={FaRupeeSign}
+            color="bg-green-500"
+            subtext="Total earnings today"
+            trend={8}
+          />
+        </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4 text-center">
-          <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FaClock className="text-yellow-600" />
+      {/* Selected Day Stats */}
+      {selectedDate !== new Date().toISOString().split("T")[0] && (
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <FaCalendarAlt className="text-red-600" />
+            {formatDate(selectedDate)} Performance
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <StatCard
+              title={`${formatDate(selectedDate)} Orders`}
+              value={loading ? "..." : stats.selectedDayOrders}
+              icon={FaShoppingBag}
+              color="bg-purple-500"
+              subtext={`Orders on ${new Date(selectedDate).toLocaleDateString(
+                "en-IN"
+              )}`}
+            />
+            <StatCard
+              title={`${formatDate(selectedDate)} Revenue`}
+              value={loading ? "..." : formatCurrency(stats.selectedDayRevenue)}
+              icon={FaRupeeSign}
+              color="bg-orange-500"
+              subtext="Total earnings for selected day"
+            />
           </div>
-          <p className="text-2xl font-bold text-gray-800">
-            {stats.pendingOrders}
-          </p>
-          <p className="text-sm text-gray-600">Pending Orders</p>
-        </Card>
+        </div>
+      )}
 
-        <Card className="p-4 text-center">
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FaTruck className="text-blue-600" />
-          </div>
-          <p className="text-2xl font-bold text-gray-800">
-            {stats.deliveryInProgress}
-          </p>
-          <p className="text-sm text-gray-600">Out for Delivery</p>
-        </Card>
-
-        <Card className="p-4 text-center">
-          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FaStar className="text-green-600" />
-          </div>
-          <p className="text-2xl font-bold text-gray-800">{stats.avgRating}</p>
-          <p className="text-sm text-gray-600">Average Rating</p>
-        </Card>
-
-        <Card className="p-4 text-center">
-          <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2">
-            <FaChartLine className="text-red-600" />
-          </div>
-          <p className="text-2xl font-bold text-gray-800">
-            {stats.todaysOrders}
-          </p>
-          <p className="text-sm text-gray-600">Today's Orders</p>
-        </Card>
+      {/* All Time Stats */}
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <FaHistory className="text-red-600" />
+          All Time Performance
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <StatCard
+            title="Total Orders"
+            value={
+              loading ? "..." : stats.allTimeOrders.toLocaleString("en-IN")
+            }
+            icon={FaChartLine}
+            color="bg-red-600"
+            subtext="All orders since restaurant started"
+          />
+          <StatCard
+            title="Total Revenue"
+            value={loading ? "..." : formatCurrency(stats.allTimeRevenue)}
+            icon={FaRupeeSign}
+            color="bg-emerald-600"
+            subtext="Total earnings since inception"
+          />
+        </div>
       </div>
 
+      {/* Additional Business Metrics */}
+      <div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <FaChartLine className="text-red-600" />
+          Business Metrics
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <StatCard
+            title="Total Customers"
+            value={
+              loading ? "..." : stats.totalCustomers.toLocaleString("en-IN")
+            }
+            icon={FaUsers}
+            color="bg-blue-600"
+            subtext="Registered customers"
+          />
+          <StatCard
+            title="Menu Items"
+            value={loading ? "..." : stats.menuItems}
+            icon={FaUtensils}
+            color="bg-orange-500"
+            subtext="Available dishes"
+          />
+          <StatCard
+            title="Pending Orders"
+            value={loading ? "..." : stats.pendingOrders}
+            icon={FaHourglassHalf}
+            color="bg-yellow-500"
+            subtext="Awaiting preparation"
+          />
+          <StatCard
+            title="Delivered Orders"
+            value={
+              loading ? "..." : stats.deliveredOrders.toLocaleString("en-IN")
+            }
+            icon={FaCheckCircle}
+            color="bg-green-600"
+            subtext="Successfully completed"
+          />
+          <StatCard
+            title="Average Rating"
+            value={loading ? "..." : `${stats.averageRating}⭐`}
+            icon={FaStar}
+            color="bg-amber-500"
+            subtext="Customer satisfaction"
+            trend={5}
+          />
+        </div>
+      </div>
+
+      {/* Recent Orders and Top Selling Items */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Orders */}
-        <Card className="p-4">
+        <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <FaShoppingBag className="text-red-600" />
               Recent Orders
             </h3>
             <Link
               to="/admin/orders"
-              className="text-dark-red hover:text-hover-red text-sm font-medium flex items-center gap-1"
+              className="text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1"
             >
               <FaEye />
               View All
             </Link>
           </div>
           <div className="space-y-3">
-            {recentOrders.map((order) => (
+            {recentOrders.slice(0, 5).map((order) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between p-3 bg-light-gray rounded-lg"
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
               >
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="font-medium text-gray-800">#{order.id}</p>
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${getStatusColor(
-                        order.status
-                      )}`}
-                    >
-                      {order.status}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600">{order.customerName}</p>
-                  <div className="flex items-center justify-between text-sm text-gray-500">
-                    <span>{order.items} items</span>
-                    <span>{formatCurrency(order.total)}</span>
-                  </div>
+                <div>
+                  <p className="font-medium text-gray-900">
+                    {order.customerName}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {order.items} items • ₹{order.total}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getOrderStatusColor(
+                      order.status
+                    )}`}
+                  >
+                    {order.status}
+                  </span>
+                  <p className="text-xs text-gray-500 mt-1">{order.time}</p>
                 </div>
               </div>
             ))}
@@ -272,84 +429,53 @@ export default function Dashboard() {
         </Card>
 
         {/* Top Selling Items */}
-        <Card className="p-4">
+        <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <FaTrophy className="text-red-600" />
               Top Selling Items
             </h3>
             <Link
-              to="/admin/reports"
-              className="text-dark-red hover:text-hover-red text-sm font-medium flex items-center gap-1"
+              to="/admin/menu"
+              className="text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1"
             >
-              <FaChartLine />
-              View Reports
+              <FaEye />
+              View Menu
             </Link>
           </div>
           <div className="space-y-3">
-            {topItems.map((item, index) => (
+            {topSellingItems.map((item, index) => (
               <div
                 key={item.name}
-                className="flex items-center justify-between p-3 bg-light-gray rounded-lg"
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-dark-red text-white rounded-full flex items-center justify-center text-sm font-bold">
-                    {index + 1}
+                  <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold text-red-600">
+                      #{index + 1}
+                    </span>
                   </div>
                   <div>
-                    <p className="font-medium text-gray-800">{item.name}</p>
+                    <p className="font-medium text-gray-900 flex items-center gap-2">
+                      <span className="text-lg">{item.image}</span>
+                      {item.name}
+                    </p>
                     <p className="text-sm text-gray-600">
                       {item.orders} orders
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium text-gray-800">
-                    {formatCurrency(item.revenue)}
+                  <p className="font-medium text-gray-900">
+                    ₹{item.revenue.toLocaleString("en-IN")}
                   </p>
-                  <p className="text-sm text-gray-600">Revenue</p>
+                  <p className="text-xs text-gray-500">Revenue</p>
                 </div>
               </div>
             ))}
           </div>
         </Card>
       </div>
-
-      {/* Quick Actions */}
-      <Card className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">
-          Quick Actions
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Link
-            to="/admin/orders"
-            className="flex flex-col items-center p-4 bg-light-gray rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <FaShoppingBag className="text-2xl text-dark-red mb-2" />
-            <span className="text-sm font-medium">Manage Orders</span>
-          </Link>
-          <Link
-            to="/admin/menu"
-            className="flex flex-col items-center p-4 bg-light-gray rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <FaUtensils className="text-2xl text-dark-red mb-2" />
-            <span className="text-sm font-medium">Update Menu</span>
-          </Link>
-          <Link
-            to="/admin/customers"
-            className="flex flex-col items-center p-4 bg-light-gray rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <FaUsers className="text-2xl text-dark-red mb-2" />
-            <span className="text-sm font-medium">View Customers</span>
-          </Link>
-          <Link
-            to="/admin/reports"
-            className="flex flex-col items-center p-4 bg-light-gray rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <FaChartLine className="text-2xl text-dark-red mb-2" />
-            <span className="text-sm font-medium">View Reports</span>
-          </Link>
-        </div>
-      </Card>
     </div>
   );
 }
