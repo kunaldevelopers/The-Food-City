@@ -113,11 +113,11 @@ export default function Dashboard() {
 
       // Mock top selling items
       setTopSellingItems([
-        { name: "Butter Chicken", orders: 45, revenue: 11250, image: "🍛" },
-        { name: "Pizza Margherita", orders: 38, revenue: 9500, image: "🍕" },
-        { name: "Chicken Biryani", orders: 32, revenue: 8000, image: "🍚" },
-        { name: "Paneer Tikka", orders: 28, revenue: 5600, image: "🧀" },
-        { name: "Masala Dosa", orders: 25, revenue: 3750, image: "🥞" },
+        { name: "Butter Chicken", orders: 45, revenue: 11250 },
+        { name: "Pizza Margherita", orders: 38, revenue: 9500 },
+        { name: "Chicken Biryani", orders: 32, revenue: 8000 },
+        { name: "Paneer Tikka", orders: 28, revenue: 5600 },
+        { name: "Masala Dosa", orders: 25, revenue: 3750 },
       ]);
 
       setLoading(false);
@@ -171,14 +171,7 @@ export default function Dashboard() {
     }
   };
 
-  const StatCard = ({
-    title,
-    value,
-    icon: IconComponent,
-    color,
-    subtext,
-    trend,
-  }) => (
+  const StatCard = ({ title, value, icon: IconComponent, color, subtext }) => (
     <Card className="p-6 hover:shadow-md transition-all duration-200 border border-gray-100">
       <div className="flex items-start justify-between">
         <div className="flex-1">
@@ -200,20 +193,6 @@ export default function Dashboard() {
               <p className="text-xs text-gray-500 leading-relaxed">{subtext}</p>
             )}
           </div>
-          {trend && (
-            <div
-              className={`flex items-center mt-3 text-xs font-medium ${
-                trend > 0 ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {trend > 0 ? (
-                <FaArrowUp className="mr-1.5" />
-              ) : (
-                <FaArrowDown className="mr-1.5" />
-              )}
-              +{Math.abs(trend)}% this month
-            </div>
-          )}
         </div>
       </div>
     </Card>
@@ -353,7 +332,7 @@ export default function Dashboard() {
           <FaChartLine className="text-red-600" />
           Business Metrics
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
           <StatCard
             title="Total Customers"
             value={
@@ -478,8 +457,7 @@ export default function Dashboard() {
                     </span>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-gray-900 flex items-center gap-2 text-sm sm:text-base">
-                      <span className="text-base sm:text-lg">{item.image}</span>
+                    <p className="font-medium text-gray-900 text-sm sm:text-base">
                       <span className="truncate">{item.name}</span>
                     </p>
                     <p className="text-xs sm:text-sm text-gray-600">
