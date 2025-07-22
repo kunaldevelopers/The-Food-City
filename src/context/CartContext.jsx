@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import { storageManager } from "../utils/localStorage.js";
+import { vibrationUtils } from "../utils/vibration.js";
 
 // Cart context
 const CartContext = createContext();
@@ -159,11 +160,17 @@ export function CartProvider({ children }) {
   // Add item to cart
   const addItem = (item) => {
     dispatch({ type: CART_ACTIONS.ADD_ITEM, payload: item });
+
+    // Trigger vibration on mobile for haptic feedback
+    vibrationUtils.addToCart();
   };
 
   // Remove item from cart
   const removeItem = (itemId) => {
     dispatch({ type: CART_ACTIONS.REMOVE_ITEM, payload: itemId });
+
+    // Light vibration for remove action
+    vibrationUtils.light();
   };
 
   // Update item quantity
@@ -185,6 +192,9 @@ export function CartProvider({ children }) {
       type: CART_ACTIONS.APPLY_PROMO,
       payload: { promoCode, discount },
     });
+
+    // Success vibration for promo code applied
+    vibrationUtils.success();
   };
 
   // Remove promo code
