@@ -179,15 +179,21 @@ export default function Dashboard() {
     subtext,
     trend,
   }) => (
-    <Card className="p-6 hover:shadow-lg transition-shadow">
+    <Card className="p-4 sm:p-6 hover:shadow-lg transition-shadow">
       <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
-          {subtext && <p className="text-sm text-gray-500 mt-1">{subtext}</p>}
+        <div className="flex-1 min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">
+            {title}
+          </p>
+          <p className="text-lg sm:text-2xl font-bold text-gray-900 break-words">
+            {value}
+          </p>
+          {subtext && (
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">{subtext}</p>
+          )}
           {trend && (
             <div
-              className={`flex items-center mt-2 text-sm ${
+              className={`flex items-center mt-2 text-xs sm:text-sm ${
                 trend > 0 ? "text-green-600" : "text-red-600"
               }`}
             >
@@ -200,8 +206,10 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-        <div className={`p-3 rounded-full ${color}`}>
-          {IconComponent && <IconComponent className="text-xl text-white" />}
+        <div className={`p-2 sm:p-3 rounded-full ${color} flex-shrink-0 ml-3`}>
+          {IconComponent && (
+            <IconComponent className="text-lg sm:text-xl text-white" />
+          )}
         </div>
       </div>
     </Card>
@@ -211,27 +219,29 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          Dashboard
+        </h1>
+        <p className="text-sm sm:text-base text-gray-600 mt-1">
           Monitor your restaurant's orders and revenue
         </p>
       </div>
 
       {/* Date Selector */}
-      <Card className="p-6">
-        <div className="flex items-center justify-between flex-wrap gap-4">
+      <Card className="p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-3">
             <FaCalendarAlt className="text-red-600 text-xl" />
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Select Date
               </h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 View orders and revenue for any specific day
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             <label
               htmlFor="date-picker"
               className="text-sm font-medium text-gray-700"
@@ -244,7 +254,7 @@ export default function Dashboard() {
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
               max={new Date().toISOString().split("T")[0]}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm"
             />
             <span className="text-sm font-medium text-red-600">
               {formatDate(selectedDate)}
@@ -255,7 +265,7 @@ export default function Dashboard() {
 
       {/* Today's Stats */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FaClock className="text-red-600" />
           Today's Performance
         </h2>
@@ -284,7 +294,7 @@ export default function Dashboard() {
       {/* Selected Day Stats */}
       {selectedDate !== new Date().toISOString().split("T")[0] && (
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <FaCalendarAlt className="text-red-600" />
             {formatDate(selectedDate)} Performance
           </h2>
@@ -311,7 +321,7 @@ export default function Dashboard() {
 
       {/* All Time Stats */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FaHistory className="text-red-600" />
           All Time Performance
         </h2>
@@ -337,11 +347,11 @@ export default function Dashboard() {
 
       {/* Additional Business Metrics */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FaChartLine className="text-red-600" />
           Business Metrics
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <StatCard
             title="Total Customers"
             value={
@@ -393,20 +403,20 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Orders and Top Selling Items */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
         {/* Recent Orders */}
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-2">
               <FaShoppingBag className="text-red-600" />
               Recent Orders
             </h3>
             <Link
               to="/admin/orders"
-              className="text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1"
+              className="text-red-600 hover:text-red-700 text-xs sm:text-sm font-medium flex items-center gap-1"
             >
               <FaEye />
-              View All
+              <span className="hidden sm:inline">View All</span>
             </Link>
           </div>
           <div className="space-y-3">
@@ -415,15 +425,15 @@ export default function Dashboard() {
                 key={order.id}
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
               >
-                <div>
-                  <p className="font-medium text-gray-900">
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-900 text-sm sm:text-base truncate">
                     {order.customerName}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     {order.items} items • ₹{order.total}
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex-shrink-0 ml-2">
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${getOrderStatusColor(
                       order.status
@@ -439,18 +449,18 @@ export default function Dashboard() {
         </Card>
 
         {/* Top Selling Items */}
-        <Card className="p-6">
+        <Card className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-2">
               <FaTrophy className="text-red-600" />
               Top Selling Items
             </h3>
             <Link
               to="/admin/menu"
-              className="text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1"
+              className="text-red-600 hover:text-red-700 text-xs sm:text-sm font-medium flex items-center gap-1"
             >
               <FaEye />
-              View Menu
+              <span className="hidden sm:inline">View Menu</span>
             </Link>
           </div>
           <div className="space-y-3">
@@ -459,24 +469,24 @@ export default function Dashboard() {
                 key={item.name}
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold text-red-600">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs sm:text-sm font-bold text-red-600">
                       #{index + 1}
                     </span>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 flex items-center gap-2">
-                      <span className="text-lg">{item.image}</span>
-                      {item.name}
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-gray-900 flex items-center gap-2 text-sm sm:text-base">
+                      <span className="text-base sm:text-lg">{item.image}</span>
+                      <span className="truncate">{item.name}</span>
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       {item.orders} orders
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-medium text-gray-900">
+                <div className="text-right flex-shrink-0 ml-2">
+                  <p className="font-medium text-gray-900 text-sm sm:text-base">
                     ₹{item.revenue.toLocaleString("en-IN")}
                   </p>
                   <p className="text-xs text-gray-500">Revenue</p>
