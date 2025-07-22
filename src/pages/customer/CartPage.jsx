@@ -453,7 +453,7 @@ export default function CartPage() {
 
         {/* Trust Indicators */}
         <div className="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
-          <div className="flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100">
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-2 md:space-y-0 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100 text-center md:text-left">
             <div className="w-8 h-8 md:w-10 md:h-10 bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
               <FaShieldAlt className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
@@ -467,7 +467,7 @@ export default function CartPage() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100">
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-2 md:space-y-0 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100 text-center md:text-left">
             <div className="w-8 h-8 md:w-10 md:h-10 bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
               <FaClock className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
@@ -479,7 +479,7 @@ export default function CartPage() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100">
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-2 md:space-y-0 md:space-x-3 p-3 md:p-4 bg-red-50 rounded-lg border border-red-100 text-center md:text-left">
             <div className="w-8 h-8 md:w-10 md:h-10 bg-red-900 rounded-full flex items-center justify-center flex-shrink-0">
               <FaStar className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </div>
