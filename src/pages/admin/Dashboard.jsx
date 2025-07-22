@@ -179,36 +179,40 @@ export default function Dashboard() {
     subtext,
     trend,
   }) => (
-    <Card className="p-4 sm:p-6 hover:shadow-lg transition-shadow">
-      <div className="flex items-center justify-between">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">
-            {title}
-          </p>
-          <p className="text-lg sm:text-2xl font-bold text-gray-900 break-words">
-            {value}
-          </p>
-          {subtext && (
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">{subtext}</p>
-          )}
+    <Card className="p-6 hover:shadow-md transition-all duration-200 border border-gray-100">
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-3">
+            <div className={`p-2.5 rounded-lg ${color} flex-shrink-0`}>
+              {IconComponent && (
+                <IconComponent className="text-lg text-white" />
+              )}
+            </div>
+            <p className="text-sm font-medium text-gray-600 leading-tight">
+              {title}
+            </p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-2xl font-bold text-gray-900 leading-none">
+              {value}
+            </p>
+            {subtext && (
+              <p className="text-xs text-gray-500 leading-relaxed">{subtext}</p>
+            )}
+          </div>
           {trend && (
             <div
-              className={`flex items-center mt-2 text-xs sm:text-sm ${
+              className={`flex items-center mt-3 text-xs font-medium ${
                 trend > 0 ? "text-green-600" : "text-red-600"
               }`}
             >
               {trend > 0 ? (
-                <FaArrowUp className="mr-1" />
+                <FaArrowUp className="mr-1.5" />
               ) : (
-                <FaArrowDown className="mr-1" />
+                <FaArrowDown className="mr-1.5" />
               )}
-              {Math.abs(trend)}% from last period
+              +{Math.abs(trend)}% this month
             </div>
-          )}
-        </div>
-        <div className={`p-2 sm:p-3 rounded-full ${color} flex-shrink-0 ml-3`}>
-          {IconComponent && (
-            <IconComponent className="text-lg sm:text-xl text-white" />
           )}
         </div>
       </div>
@@ -269,7 +273,7 @@ export default function Dashboard() {
           <FaClock className="text-red-600" />
           Today's Performance
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-6">
           <StatCard
             title="Today's Orders"
             value={loading ? "..." : stats.todayOrders}
@@ -278,7 +282,6 @@ export default function Dashboard() {
             subtext={`Orders received today (${new Date().toLocaleDateString(
               "en-IN"
             )})`}
-            trend={12}
           />
           <StatCard
             title="Today's Revenue"
@@ -286,7 +289,6 @@ export default function Dashboard() {
             icon={FaRupeeSign}
             color="bg-green-500"
             subtext="Total earnings today"
-            trend={8}
           />
         </div>
       </div>
@@ -298,7 +300,7 @@ export default function Dashboard() {
             <FaCalendarAlt className="text-red-600" />
             {formatDate(selectedDate)} Performance
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-3 md:gap-6">
             <StatCard
               title={`${formatDate(selectedDate)} Orders`}
               value={loading ? "..." : stats.selectedDayOrders}
@@ -325,7 +327,7 @@ export default function Dashboard() {
           <FaHistory className="text-red-600" />
           All Time Performance
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-6">
           <StatCard
             title="Total Orders"
             value={
