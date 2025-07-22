@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Card } from "../../components/shared/Layout.jsx";
+import ConfirmDialog from "../../components/shared/ConfirmDialog.jsx";
+import { useToast } from "../../components/shared/Toast.jsx";
 import {
   FaSearch,
   FaFilter,
@@ -17,6 +19,18 @@ export default function OrderManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(true);
+
+  // Professional confirmation dialog state
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    onConfirm: null,
+    type: "warning",
+  });
+
+  // Toast notifications
+  const { addToast } = useToast();
 
   // Mock orders data
   useEffect(() => {
@@ -143,6 +157,61 @@ export default function OrderManagement() {
         order.id === orderId ? { ...order, status: newStatus } : order
       )
     );
+  };
+
+  const handleStatusUpdate = (orderId, newStatus, customerName) => {
+    let dialogConfig = {};
+
+    switch (newStatus) {
+      case "preparing":
+        dialogConfig = {
+          title: "Mark Order as Preparing",
+          message: `Are you sure you want to mark order ${orderId} (${customerName}) as "Preparing"?\n\nThis will indicate that the kitchen has started preparing the order.`,
+          type: "info",
+        };
+        break;
+      case "delivery":
+        dialogConfig = {
+          title: "Send Order for Delivery",
+          message: `Are you sure you want to mark order ${orderId} (${customerName}) as "Out for Delivery"?\n\nThis will indicate that the order is ready and has been dispatched for delivery.`,
+          type: "warning",
+        };
+        break;
+      case "delivered":
+        dialogConfig = {
+          title: "Mark Order as Delivered",
+          message: `Are you sure you want to mark order ${orderId} (${customerName}) as "Delivered"?\n\nThis action will complete the order and cannot be undone.`,
+          type: "danger",
+        };
+        break;
+      default:
+        dialogConfig = {
+          title: "Update Order Status",
+          message: `Are you sure you want to update the status of order ${orderId}?`,
+          type: "warning",
+        };
+    }
+
+    setConfirmDialog({
+      isOpen: true,
+      ...dialogConfig,
+      onConfirm: () => {
+        updateOrderStatus(orderId, newStatus);
+
+        // Show success toast
+        const successMessages = {
+          preparing: "Order marked as preparing successfully!",
+          delivery: "Order sent for delivery successfully!",
+          delivered: "Order marked as delivered successfully!",
+        };
+
+        addToast(
+          successMessages[newStatus] || "Order status updated successfully!",
+          "success",
+          4000
+        );
+      },
+    });
   };
 
   const formatTime = (timeString) => {
@@ -291,7 +360,11 @@ export default function OrderManagement() {
                       {order.status !== "preparing" && (
                         <button
                           onClick={() =>
-                            updateOrderStatus(order.id, "preparing")
+                            handleStatusUpdate(
+                              order.id,
+                              "preparing",
+                              order.customerName
+                            )
                           }
                           className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 text-sm flex items-center gap-1"
                         >
@@ -302,7 +375,11 @@ export default function OrderManagement() {
                       {order.status !== "delivery" && (
                         <button
                           onClick={() =>
-                            updateOrderStatus(order.id, "delivery")
+                            handleStatusUpdate(
+                              order.id,
+                              "delivery",
+                              order.customerName
+                            )
                           }
                           className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm flex items-center gap-1"
                         >
@@ -311,7 +388,13 @@ export default function OrderManagement() {
                         </button>
                       )}
                       <button
-                        onClick={() => updateOrderStatus(order.id, "delivered")}
+                        onClick={() =>
+                          handleStatusUpdate(
+                            order.id,
+                            "delivered",
+                            order.customerName
+                          )
+                        }
                         className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm flex items-center gap-1"
                       >
                         <FaCheck />
@@ -325,6 +408,18 @@ export default function OrderManagement() {
           )}
         </div>
       </div>
+
+      {/* Professional Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog((prev) => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmDialog.onConfirm}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        type={confirmDialog.type}
+        confirmText="Yes, Update Status"
+        cancelText="Cancel"
+      />
     </Container>
   );
 }
