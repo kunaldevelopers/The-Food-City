@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { Container } from "../../shared/Layout.jsx";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import {
-  FaDashboard,
+  FaTachometerAlt,
   FaShoppingBag,
   FaUtensils,
   FaTag,
@@ -19,7 +19,7 @@ export default function AdminLayout() {
   const location = useLocation();
 
   const menuItems = [
-    { path: "/admin", icon: FaDashboard, label: "Dashboard", exact: true },
+    { path: "/admin", icon: FaTachometerAlt, label: "Dashboard", exact: true },
     { path: "/admin/orders", icon: FaShoppingBag, label: "Orders" },
     { path: "/admin/menu", icon: FaUtensils, label: "Menu Management" },
     { path: "/admin/promos", icon: FaTag, label: "Promotions" },

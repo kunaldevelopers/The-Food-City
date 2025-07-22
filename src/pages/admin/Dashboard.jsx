@@ -9,7 +9,7 @@ import {
   FaClock,
   FaTruck,
   FaStar,
-  FaTrendingUp,
+  FaArrowUp,
   FaChartLine,
   FaEye,
 } from "react-icons/fa";
@@ -125,7 +125,7 @@ export default function Dashboard() {
                 {stats.totalOrders}
               </p>
               <p className="text-xs text-green-600 flex items-center gap-1">
-                <FaTrendingUp />
+                <FaArrowUp />
                 +12% from last month
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function Dashboard() {
                 {formatCurrency(stats.totalRevenue)}
               </p>
               <p className="text-xs text-green-600 flex items-center gap-1">
-                <FaTrendingUp />
+                <FaArrowUp />
                 +18% from last month
               </p>
             </div>
@@ -161,7 +161,7 @@ export default function Dashboard() {
                 {stats.totalCustomers}
               </p>
               <p className="text-xs text-green-600 flex items-center gap-1">
-                <FaTrendingUp />
+                <FaArrowUp />
                 +8% from last month
               </p>
             </div>
