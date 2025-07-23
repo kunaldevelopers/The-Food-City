@@ -16,13 +16,14 @@ const AUTH_ACTIONS = {
   LOGOUT: "LOGOUT",
   CLEAR_ERROR: "CLEAR_ERROR",
   SET_USER: "SET_USER",
+  INIT_COMPLETE: "INIT_COMPLETE",
 };
 
 // Initial state
 const initialState = {
   user: null,
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true, // Start with loading true
   error: null,
 };
 
@@ -74,6 +75,12 @@ function authReducer(state, action) {
         isLoading: false,
       };
 
+    case AUTH_ACTIONS.INIT_COMPLETE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     case AUTH_ACTIONS.CLEAR_ERROR:
       return {
         ...state,
@@ -91,10 +98,22 @@ export function AuthProvider({ children }) {
 
   // Check for existing session on mount
   useEffect(() => {
-    const savedUser = storageManager.getUserSession();
-    if (savedUser) {
-      dispatch({ type: AUTH_ACTIONS.SET_USER, payload: savedUser });
-    }
+    const initializeAuth = () => {
+      try {
+        const savedUser = storageManager.getUserSession();
+        if (savedUser) {
+          dispatch({ type: AUTH_ACTIONS.SET_USER, payload: savedUser });
+        } else {
+          dispatch({ type: AUTH_ACTIONS.INIT_COMPLETE });
+        }
+      } catch (error) {
+        console.error("Error initializing auth:", error);
+        dispatch({ type: AUTH_ACTIONS.INIT_COMPLETE });
+      }
+    };
+
+    // Add a small delay to ensure localStorage is ready
+    setTimeout(initializeAuth, 100);
   }, []);
 
   // Login function

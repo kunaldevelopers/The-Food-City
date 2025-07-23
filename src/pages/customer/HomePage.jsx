@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Container } from "../../components/shared/Layout.jsx";
 import { mockAPI } from "../../services/mockApi.js";
 import HeroSection from "../../components/customer/HeroSection.jsx";
@@ -19,10 +20,11 @@ export default function HomePage() {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     loadMenuItems();
-  }, []);
+  }, [searchParams]);
 
   const loadMenuItems = async () => {
     try {
