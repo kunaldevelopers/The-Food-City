@@ -169,24 +169,44 @@ class LocalStorageManager {
     // Always update menu items to get latest additions
     this.setMenuItems(defaultData.menuItems);
 
-    // Only initialize other data if it doesn't exist
-    if (!this.getUsers().length) {
+    // Check if users contain old data (John Doe) or missing new data (Mohit Kumar) and force update if so
+    const currentUsers = this.getUsers();
+    const hasOldData = currentUsers.some(
+      (u) => u.name === "John Doe" || u.name === "Jane Smith"
+    );
+    const missingNewData = !currentUsers.some((u) => u.name === "Mohit Kumar");
+
+    if (!currentUsers.length || hasOldData || missingNewData) {
       this.setUsers(defaultData.users);
+      // Also reset orders if we reset users to avoid ID mismatches
+      this.setOrders(defaultData.orders);
     }
-    if (!this.getPromoCodes().length) {
+
+    // Check for expired promo codes and force update
+    const currentPromos = this.getPromoCodes();
+    const hasExpiredPromos = currentPromos.some(
+      (p) => new Date(p.expiryDate) < new Date()
+    );
+
+    if (!currentPromos.length || hasExpiredPromos) {
       this.setPromoCodes(defaultData.promoCodes);
     }
     if (!this.getDeliveryBoys().length) {
       this.setDeliveryBoys(defaultData.deliveryBoys);
     }
-    if (!this.getOrders().length) {
-      this.setOrders(defaultData.orders);
+
+    // Check analytics for old data
+    const analytics = this.getAnalytics();
+    const hasOldAnalytics =
+      analytics.topCustomers &&
+      analytics.topCustomers.some((c) => c.name === "John Doe");
+
+    if (!Object.keys(analytics).length || hasOldAnalytics) {
+      this.setAnalytics(defaultData.analytics);
     }
+
     if (!this.getReviews().length) {
       this.setReviews(defaultData.reviews);
-    }
-    if (!Object.keys(this.getAnalytics()).length) {
-      this.setAnalytics(defaultData.analytics);
     }
   }
 

@@ -93,7 +93,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }) {
     if (role === "customer") {
       setFormData({
         ...formData,
-        email: "john.doe@example.com",
+        email: "mohit.kumar@example.com",
         password: "Password123!",
       });
     } else if (role === "admin") {

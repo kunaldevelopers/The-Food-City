@@ -305,6 +305,44 @@ class MockAPIService {
     };
   }
 
+  async getAllPromoCodes() {
+    await this.delay(300);
+    const promoCodes = storageManager.getPromoCodes();
+    return {
+      success: true,
+      data: promoCodes,
+    };
+  }
+
+  async addPromoCode(promoData) {
+    await this.delay(500);
+    const promoCodes = storageManager.getPromoCodes();
+    const newPromo = {
+      id: Date.now().toString(),
+      ...promoData,
+      usedCount: 0,
+      isActive: true,
+    };
+    promoCodes.push(newPromo);
+    storageManager.setPromoCodes(promoCodes);
+    return {
+      success: true,
+      data: newPromo,
+      message: "Promo code created successfully",
+    };
+  }
+
+  async deletePromoCode(id) {
+    await this.delay(400);
+    let promoCodes = storageManager.getPromoCodes();
+    promoCodes = promoCodes.filter((p) => p.id !== id);
+    storageManager.setPromoCodes(promoCodes);
+    return {
+      success: true,
+      message: "Promo code deleted successfully",
+    };
+  }
+
   async validatePromoCode(code, orderValue) {
     await this.delay(400);
 
@@ -359,6 +397,38 @@ class MockAPIService {
       success: true,
       data: deliveryBoys,
     };
+  }
+
+  async addDeliveryBoy(boyData) {
+    await this.delay(500);
+    const deliveryBoys = storageManager.getDeliveryBoys();
+    const newBoy = {
+      id: Date.now().toString(),
+      ...boyData,
+      isAvailable: true,
+      currentOrders: [],
+      rating: 5.0,
+      totalDeliveries: 0,
+    };
+    deliveryBoys.push(newBoy);
+    storageManager.setDeliveryBoys(deliveryBoys);
+    return {
+      success: true,
+      data: newBoy,
+      message: "Delivery personnel added successfully",
+    };
+  }
+
+  async updateDeliveryBoyStatus(id, isAvailable) {
+    await this.delay(300);
+    const deliveryBoys = storageManager.getDeliveryBoys();
+    const boyIndex = deliveryBoys.findIndex((b) => b.id === id);
+    if (boyIndex > -1) {
+      deliveryBoys[boyIndex].isAvailable = isAvailable;
+      storageManager.setDeliveryBoys(deliveryBoys);
+      return { success: true, message: "Status updated" };
+    }
+    return { success: false, message: "Delivery boy not found" };
   }
 
   async assignDelivery(orderId) {
@@ -520,6 +590,22 @@ class MockAPIService {
       data: userWithoutPassword,
       message: "User updated successfully",
     };
+  }
+
+  async toggleUserBlock(userId) {
+    await this.delay(400);
+    const users = storageManager.getUsers();
+    const userIndex = users.findIndex((u) => u.id === userId);
+    if (userIndex > -1) {
+      users[userIndex].isActive = !users[userIndex].isActive;
+      storageManager.setUsers(users);
+      return {
+        success: true,
+        data: { isActive: users[userIndex].isActive },
+        message: users[userIndex].isActive ? "User unblocked" : "User blocked",
+      };
+    }
+    return { success: false, message: "User not found" };
   }
 }
 

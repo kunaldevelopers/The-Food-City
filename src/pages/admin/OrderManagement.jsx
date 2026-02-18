@@ -9,7 +9,7 @@ import {
   FaCheck,
   FaTruck,
   FaEye,
-  FaPhone,
+  FaPhoneAlt,
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
@@ -314,7 +314,7 @@ export default function OrderManagement() {
                           {order.customerName}
                         </p>
                         <p className="flex items-center gap-2">
-                          <FaPhone className="text-gray-400" />
+                          <FaPhoneAlt className="text-gray-400" />
                           {order.customerPhone}
                         </p>
                         <p className="flex items-start gap-2">

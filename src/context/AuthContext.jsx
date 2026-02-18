@@ -124,6 +124,7 @@ export function AuthProvider({ children }) {
       const response = await mockAPI.login(credentials);
 
       if (response.success) {
+        storageManager.setUserSession(response.user);
         dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: response.user });
         return { success: true, message: response.message };
       } else {
@@ -148,6 +149,7 @@ export function AuthProvider({ children }) {
       const response = await mockAPI.register(userData);
 
       if (response.success) {
+        storageManager.setUserSession(response.user);
         dispatch({
           type: AUTH_ACTIONS.REGISTER_SUCCESS,
           payload: response.user,

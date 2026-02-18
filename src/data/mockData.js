@@ -3,8 +3,8 @@
 export const mockUsers = [
   {
     id: "1",
-    name: "John Doe",
-    email: "john.doe@example.com",
+    name: "Mohit Kumar",
+    email: "mohit.kumar@example.com",
     password: "Password123!",
     phone: "+919876543210",
     role: "customer",
@@ -13,7 +13,7 @@ export const mockUsers = [
         id: "1",
         userId: "1",
         label: "Home",
-        street: "123 Main St",
+        street: "Flat 402, Sunshine Apartments, Andheri West",
         city: "Mumbai",
         state: "Maharashtra",
         pinCode: "400001",
@@ -26,8 +26,8 @@ export const mockUsers = [
   },
   {
     id: "2",
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
+    name: "Fatima Shaikh",
+    email: "fatima.shaikh@example.com",
     password: "Password123!",
     phone: "+919876543211",
     role: "customer",
@@ -36,7 +36,7 @@ export const mockUsers = [
         id: "2",
         userId: "2",
         label: "Home",
-        street: "456 Park Ave",
+        street: "Block C, Lajpat Nagar",
         city: "Delhi",
         state: "Delhi",
         pinCode: "110001",
@@ -59,6 +59,8 @@ export const mockUsers = [
     isActive: true,
   },
 ];
+
+
 
 export const mockMenuItems = [
   // Indian Category
@@ -111,7 +113,7 @@ export const mockMenuItems = [
     price: 320,
     category: "Indian",
     type: "Non-Veg",
-    image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400",
+    image: "https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-hyderabadi-biryani-01.jpg",
     rating: 4.8,
     reviewCount: 245,
     isAvailable: true,
@@ -297,7 +299,7 @@ export const mockMenuItems = [
     price: 120,
     category: "South",
     type: "Veg",
-    image: "https://images.unsplash.com/photo-1630383249896-424e482df921?w=400",
+    image: "https://vismaifood.com/storage/app/uploads/public/45a/29b/a17/thumb__700_0_0_0_auto.jpg",
     rating: 4.6,
     reviewCount: 203,
     isAvailable: true,
@@ -529,7 +531,7 @@ export const mockPromoCodes = [
     discountValue: 50,
     minOrderValue: 200,
     maxDiscount: 150,
-    expiryDate: new Date("2025-12-31"),
+    expiryDate: new Date("2030-12-31"),
     usageLimit: 1000,
     usedCount: 245,
     isActive: true,
@@ -542,7 +544,7 @@ export const mockPromoCodes = [
     discountValue: 20,
     minOrderValue: 150,
     maxDiscount: 100,
-    expiryDate: new Date("2025-11-30"),
+    expiryDate: new Date("2030-11-30"),
     usageLimit: 500,
     usedCount: 123,
     isActive: true,
@@ -555,7 +557,7 @@ export const mockPromoCodes = [
     discountValue: 100,
     minOrderValue: 500,
     maxDiscount: 100,
-    expiryDate: new Date("2025-10-15"),
+    expiryDate: new Date("2030-10-15"),
     usageLimit: 200,
     usedCount: 67,
     isActive: true,
@@ -661,9 +663,9 @@ export const mockAnalytics = {
   todaysOrders: 45,
   cancelledOrders: 23,
   topCustomers: [
-    { name: "John Doe", orders: 15, spent: 3200 },
-    { name: "Jane Smith", orders: 12, spent: 2800 },
-    { name: "Mike Johnson", orders: 10, spent: 2400 },
+    { name: "Mohit Kumar", orders: 15, spent: 3200 },
+    { name: "Fatima Shaikh", orders: 12, spent: 2800 },
+    { name: "Sadat Alam", orders: 10, spent: 2400 },
   ],
   topItems: [
     { name: "Butter Chicken", orders: 89, revenue: 22250 },

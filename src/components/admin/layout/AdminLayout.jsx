@@ -25,13 +25,8 @@ export default function AdminLayout() {
     { path: "/admin", icon: FaTachometerAlt, label: "Dashboard", exact: true },
     { path: "/admin/orders", icon: FaShoppingBag, label: "Orders" },
     { path: "/admin/menu", icon: FaUtensils, label: "Menu Management" },
-    { path: "/admin/delivery", icon: FaTruck, label: "Delivery" },
+    { path: "/admin/delivery", icon: FaUserTie, label: "Delivery Staff" },
     { path: "/admin/customers", icon: FaUsers, label: "Customers" },
-    {
-      path: "/admin/delivery-staffs",
-      icon: FaUserTie,
-      label: "Delivery Staffs",
-    },
     { path: "/admin/reports", icon: FaChartLine, label: "Reports" },
   ];
 
@@ -114,11 +109,10 @@ export default function AdminLayout() {
           fixed lg:static inset-y-0 left-0 z-50
           w-64 bg-white shadow-lg lg:shadow-sm 
           transform transition-transform duration-300 ease-in-out
-          ${
-            isMobileMenuOpen
+          ${isMobileMenuOpen
               ? "translate-x-0"
               : "-translate-x-full lg:translate-x-0"
-          }
+            }
           min-h-screen lg:min-h-0
         `}
         >
@@ -141,11 +135,10 @@ export default function AdminLayout() {
                     <Link
                       to={item.path}
                       onClick={closeMobileMenu}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                        isActiveRoute(item.path, item.exact)
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActiveRoute(item.path, item.exact)
                           ? "bg-dark-red text-white"
                           : "text-gray-700 hover:bg-red-50 hover:text-dark-red"
-                      }`}
+                        }`}
                     >
                       <Icon className="text-lg flex-shrink-0" />
                       <span className="text-sm lg:text-base">{item.label}</span>

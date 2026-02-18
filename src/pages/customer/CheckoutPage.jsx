@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Button } from "../../components/shared/Layout.jsx";
@@ -5,6 +6,7 @@ import { useCart } from "../../context/CartContext.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { mockAPI } from "../../services/mockApi.js";
 import { InlineLoader } from "../../components/shared/LoadingSpinner.jsx";
+import { FaCreditCard, FaLock, FaCheckCircle } from "react-icons/fa";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -37,6 +39,10 @@ export default function CheckoutPage() {
   });
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [orderLoading, setOrderLoading] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const isOrderPlaced = React.useRef(false);
 
   const loadUserAddresses = useCallback(async () => {
     if (user?.addresses) {
@@ -50,7 +56,7 @@ export default function CheckoutPage() {
   }, [user?.addresses, setDeliveryAddress]);
 
   useEffect(() => {
-    if (itemCount === 0) {
+    if (itemCount === 0 && !isOrderPlaced.current) {
       navigate("/cart");
       return;
     }
@@ -92,14 +98,8 @@ export default function CheckoutPage() {
     });
   };
 
-  const handlePlaceOrder = async () => {
-    if (!deliveryAddress) {
-      alert("Please select a delivery address");
-      return;
-    }
-
+  const processOrder = async () => {
     setOrderLoading(true);
-
     try {
       const orderData = {
         userId: user.id,
@@ -111,8 +111,10 @@ export default function CheckoutPage() {
       const response = await mockAPI.placeOrder(orderData);
 
       if (response.success) {
+        isOrderPlaced.current = true;
         clearCart();
-        navigate(`/orders/${response.data.id}`);
+        // Force a full page load to ensure order data is fresh
+        window.location.href = `/orders/${response.data.id}`;
       } else {
         alert("Failed to place order. Please try again.");
       }
@@ -124,12 +126,39 @@ export default function CheckoutPage() {
     }
   };
 
+  const handlePlaceOrder = () => {
+    if (!deliveryAddress) {
+      alert("Please select a delivery address");
+      return;
+    }
+
+    if (paymentMethod === "online") {
+      setShowPaymentModal(true);
+    } else {
+      processOrder();
+    }
+  };
+
+  const handleOnlinePayment = async () => {
+    setPaymentProcessing(true);
+    // Simulate payment gateway delay
+    setTimeout(() => {
+      setPaymentProcessing(false);
+      setPaymentSuccess(true);
+      // Process order after brief success message
+      setTimeout(() => {
+        setShowPaymentModal(false);
+        processOrder();
+      }, 1500);
+    }, 2000);
+  };
+
   if (itemCount === 0) {
     return null; // Will redirect to cart
   }
 
   return (
-    <Container className="py-4 md:py-8">
+    <Container className="py-4 md:py-8 relative">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-dark-red mb-8">Checkout</h1>
 
@@ -149,10 +178,9 @@ export default function CheckoutPage() {
                       key={address.id}
                       className={`
                         p-4 rounded-lg border-2 cursor-pointer transition-colors
-                        ${
-                          selectedAddressId === address.id
-                            ? "border-dark-red bg-red-50"
-                            : "border-gray-200 hover:border-gray-300"
+                        ${selectedAddressId === address.id
+                          ? "border-dark-red bg-red-50"
+                          : "border-gray-200 hover:border-gray-300"
                         }
                       `}
                       onClick={() => handleAddressChange(address.id)}
@@ -182,10 +210,9 @@ export default function CheckoutPage() {
                         <div
                           className={`
                             w-5 h-5 rounded-full border-2 flex items-center justify-center
-                            ${
-                              selectedAddressId === address.id
-                                ? "border-dark-red bg-dark-red"
-                                : "border-gray-300"
+                            ${selectedAddressId === address.id
+                              ? "border-dark-red bg-dark-red"
+                              : "border-gray-300"
                             }
                           `}
                         >
@@ -294,10 +321,9 @@ export default function CheckoutPage() {
                 <div
                   className={`
                     p-4 rounded-lg border-2 cursor-pointer transition-colors
-                    ${
-                      paymentMethod === "cod"
-                        ? "border-dark-red bg-red-50"
-                        : "border-gray-200 hover:border-gray-300"
+                    ${paymentMethod === "cod"
+                      ? "border-dark-red bg-red-50"
+                      : "border-gray-200 hover:border-gray-300"
                     }
                   `}
                   onClick={() => setPaymentMethod("cod")}
@@ -331,10 +357,9 @@ export default function CheckoutPage() {
                     <div
                       className={`
                         w-5 h-5 rounded-full border-2 flex items-center justify-center
-                        ${
-                          paymentMethod === "cod"
-                            ? "border-dark-red bg-dark-red"
-                            : "border-gray-300"
+                        ${paymentMethod === "cod"
+                          ? "border-dark-red bg-dark-red"
+                          : "border-gray-300"
                         }
                       `}
                     >
@@ -347,39 +372,40 @@ export default function CheckoutPage() {
 
                 <div
                   className={`
-                    p-4 rounded-lg border-2 cursor-pointer transition-colors opacity-50
-                    ${
-                      paymentMethod === "online"
-                        ? "border-dark-red bg-red-50"
-                        : "border-gray-200"
+                    p-4 rounded-lg border-2 cursor-pointer transition-colors
+                    ${paymentMethod === "online"
+                      ? "border-dark-red bg-red-50"
+                      : "border-gray-200 hover:border-gray-300"
                     }
                   `}
+                  onClick={() => setPaymentMethod("online")}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 bg-info-blue rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-4 h-4 text-white"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                          />
-                        </svg>
+                        <FaCreditCard className="text-white" />
                       </div>
                       <div>
                         <p className="font-medium text-gray-800">
                           Online Payment
                         </p>
                         <p className="text-sm text-gray-600">
-                          Coming Soon - Card, UPI, Wallets
+                          Card, UPI, Wallets
                         </p>
                       </div>
+                    </div>
+                    <div
+                      className={`
+                        w-5 h-5 rounded-full border-2 flex items-center justify-center
+                        ${paymentMethod === "online"
+                          ? "border-dark-red bg-dark-red"
+                          : "border-gray-300"
+                        }
+                      `}
+                    >
+                      {paymentMethod === "online" && (
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -478,6 +504,76 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+
+      {/* Payment Simulation Modal */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <Card className="w-full max-w-md p-6 mx-4 relative">
+            <button
+              onClick={() => setShowPaymentModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              disabled={paymentProcessing || paymentSuccess}
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <FaLock className="text-green-600" /> Secure Payment
+            </h2>
+
+            {paymentSuccess ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 text-3xl">
+                  <FaCheckCircle />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  Payment Successful!
+                </h3>
+                <p className="text-gray-600">Redirecting to order confirmation...</p>
+              </div>
+            ) : paymentProcessing ? (
+              <div className="text-center py-8">
+                <InlineLoader text="Processing secure payment..." />
+                <p className="text-sm text-gray-500 mt-4">
+                  Please do not close this window
+                </p>
+              </div>
+            ) : (
+              <div>
+                <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                  <p className="text-sm text-gray-600 mb-1">Amount to Pay</p>
+                  <p className="text-2xl font-bold text-gray-800">
+                    ₹{total.toFixed(2)}
+                  </p>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  <div className="border rounded-lg p-3 flex items-center gap-3 border-dark-red bg-red-50">
+                    <FaCreditCard className="text-dark-red" />
+                    <span className="font-medium text-gray-800">
+                      Credit / Debit Card
+                    </span>
+                  </div>
+                  <div className="border rounded-lg p-3 flex items-center gap-3 text-gray-400 cursor-not-allowed">
+                    <span className="font-medium">UPI (Coming Soon)</span>
+                  </div>
+                  <div className="border rounded-lg p-3 flex items-center gap-3 text-gray-400 cursor-not-allowed">
+                    <span className="font-medium">Wallets (Coming Soon)</span>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={handleOnlinePayment}
+                  fullWidth
+                  size="lg"
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  Pay Now
+                </Button>
+              </div>
+            )}
+          </Card>
+        </div>
+      )}
     </Container>
   );
 }

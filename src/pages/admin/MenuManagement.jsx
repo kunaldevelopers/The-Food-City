@@ -94,7 +94,7 @@ export default function MenuManagement() {
         isVeg: true,
         tags: ["healthy", "vegetarian", "south indian"],
         image:
-          "https://images.unsplash.com/photo-1571115764595-644a1f56a55c?w=150&h=150&fit=crop",
+          "https://vismaifood.com/storage/app/uploads/public/45a/29b/a17/thumb__700_0_0_0_auto.jpg",
       },
       {
         id: 5,
@@ -107,7 +107,7 @@ export default function MenuManagement() {
         isVeg: false,
         tags: ["trending", "aromatic", "biryani"],
         image:
-          "https://images.unsplash.com/photo-1563379091339-03246963d071?w=150&h=150&fit=crop",
+          "https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-hyderabadi-biryani-01.jpg",
       },
     ];
 
@@ -320,6 +320,11 @@ export default function MenuManagement() {
                       src={item.image}
                       alt={item.name}
                       className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=150&h=150&fit=crop";
+                      }}
                     />
                   </div>
 
@@ -332,20 +337,18 @@ export default function MenuManagement() {
                             {item.name}
                           </h3>
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              item.isVeg
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${item.isVeg
                                 ? "bg-green-100 text-green-800"
                                 : "bg-red-100 text-red-800"
-                            }`}
+                              }`}
                           >
                             {item.isVeg ? "Veg" : "Non-Veg"}
                           </span>
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              item.isAvailable
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${item.isAvailable
                                 ? "bg-green-100 text-green-800"
                                 : "bg-red-100 text-red-800"
-                            }`}
+                              }`}
                           >
                             {item.isAvailable ? "Available" : "Unavailable"}
                           </span>
@@ -376,11 +379,10 @@ export default function MenuManagement() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => toggleAvailability(item.id)}
-                          className={`p-2 rounded-lg ${
-                            item.isAvailable
+                          className={`p-2 rounded-lg ${item.isAvailable
                               ? "bg-green-100 text-green-600 hover:bg-green-200"
                               : "bg-red-100 text-red-600 hover:bg-red-200"
-                          }`}
+                            }`}
                           title={
                             item.isAvailable ? "Disable Item" : "Enable Item"
                           }
@@ -622,9 +624,8 @@ function ItemForm({ item, categories, onSave, onCancel }) {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${errors.name ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter item name"
           />
           {errors.name && (
@@ -641,9 +642,8 @@ function ItemForm({ item, categories, onSave, onCancel }) {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-              errors.category ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${errors.category ? "border-red-500" : "border-gray-300"
+              }`}
           >
             {categories.map((cat) => (
               <option key={cat.id} value={cat.name}>
@@ -668,9 +668,8 @@ function ItemForm({ item, categories, onSave, onCancel }) {
             onChange={handleChange}
             min="0"
             step="0.01"
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-              errors.price ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${errors.price ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter price"
           />
           {errors.price && (
@@ -689,9 +688,8 @@ function ItemForm({ item, categories, onSave, onCancel }) {
             value={formData.prepTime}
             onChange={handleChange}
             min="1"
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-              errors.prepTime ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${errors.prepTime ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter prep time"
           />
           {errors.prepTime && (
@@ -838,9 +836,8 @@ function ItemForm({ item, categories, onSave, onCancel }) {
             onChange={handleChange}
             rows={3}
             maxLength={60}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${
-              errors.description ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 ${errors.description ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Enter item description (max 60 characters)"
           />
           <div className="absolute bottom-2 right-2 text-sm text-gray-400">

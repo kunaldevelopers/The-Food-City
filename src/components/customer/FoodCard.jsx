@@ -30,6 +30,11 @@ export default function FoodCard({ item }) {
           src={item.image}
           alt={item.name}
           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400"; // Fallback generic food image
+          }}
         />
 
         {/* Type Badge */}
@@ -37,11 +42,10 @@ export default function FoodCard({ item }) {
           <span
             className={`
             px-2 py-1 rounded-full text-xs font-medium
-            ${
-              item.type === "Veg"
+            ${item.type === "Veg"
                 ? "bg-success-green text-white"
                 : "bg-error-red text-white"
-            }
+              }
           `}
           >
             {item.type}

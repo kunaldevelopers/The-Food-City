@@ -7,7 +7,7 @@ import Toast from "../../components/shared/Toast.jsx";
 import {
   FaUser,
   FaEnvelope,
-  FaPhone,
+  FaPhoneAlt,
   FaMapMarkerAlt,
   FaEdit,
   FaTrash,
@@ -224,7 +224,7 @@ export default function ProfilePage() {
                     }))
                   }
                   required
-                  icon={<FaPhone />}
+                  icon={<FaPhoneAlt />}
                 />
                 <Button type="submit" className="w-full">
                   Save Changes
@@ -247,7 +247,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-light-gray rounded-lg">
-                  <FaPhone className="text-dark-red" />
+                  <FaPhoneAlt className="text-dark-red" />
                   <div>
                     <p className="text-sm text-gray-600">Phone</p>
                     <p className="font-medium">{user.phone}</p>
@@ -409,11 +409,10 @@ export default function ProfilePage() {
               addresses.map((address) => (
                 <div
                   key={address.id}
-                  className={`p-4 border rounded-lg ${
-                    address.isDefault
+                  className={`p-4 border rounded-lg ${address.isDefault
                       ? "border-dark-red bg-red-50"
                       : "border-gray-200"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">

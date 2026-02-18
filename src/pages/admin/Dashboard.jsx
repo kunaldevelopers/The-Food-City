@@ -71,7 +71,7 @@ export default function Dashboard() {
       setRecentOrders([
         {
           id: "ORD001",
-          customerName: "John Doe",
+          customerName: "Vikram Malhotra",
           items: 3,
           total: 850,
           status: "preparing",
@@ -79,7 +79,7 @@ export default function Dashboard() {
         },
         {
           id: "ORD002",
-          customerName: "Jane Smith",
+          customerName: "Anjali Gupta",
           items: 2,
           total: 650,
           status: "delivered",
@@ -87,7 +87,7 @@ export default function Dashboard() {
         },
         {
           id: "ORD003",
-          customerName: "Mike Johnson",
+          customerName: "Rohan Das",
           items: 5,
           total: 1200,
           status: "delivery",
@@ -95,7 +95,7 @@ export default function Dashboard() {
         },
         {
           id: "ORD004",
-          customerName: "Sarah Wilson",
+          customerName: "Meera Iyer",
           items: 1,
           total: 320,
           status: "pending",
@@ -103,7 +103,7 @@ export default function Dashboard() {
         },
         {
           id: "ORD005",
-          customerName: "David Brown",
+          customerName: "Arjun Singh",
           items: 4,
           total: 980,
           status: "delivered",
