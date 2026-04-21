@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import { useCart } from "../../../context/CartContext.jsx";
 
+import logo from "../../../assets/logo.png";
+
 export default function Header({ onOpenAuth }) {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
@@ -22,7 +24,7 @@ export default function Header({ onOpenAuth }) {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img
-              src="https://cornflowerblue-lion-884998.hostingersite.com/wp-content/uploads/2025/07/logo.webp"
+              src={logo}
               alt="The Food City"
               className="h-10 w-10 object-contain"
             />

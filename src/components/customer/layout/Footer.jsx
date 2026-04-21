@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../../assets/logo.png";
 
 export default function Footer() {
   return (
@@ -10,7 +11,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <img
-                src="https://cornflowerblue-lion-884998.hostingersite.com/wp-content/uploads/2025/07/logo.webp"
+                src={logo}
                 alt="The Food City"
                 className="h-8 w-8 object-contain"
               />
